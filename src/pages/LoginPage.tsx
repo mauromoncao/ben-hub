@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { Lock, Mail, Eye, EyeOff, ArrowLeft, Shield, TrendingUp, Users, ChevronRight } from 'lucide-react'
 
@@ -49,9 +49,24 @@ const ACCESS_PANELS = [
 export default function LoginPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  // Read ?panel= param to pre-select a panel (juris | cliente)
+  const urlPanel = new URLSearchParams(location.search).get('panel')
 
   // Step 1: panel selection | Step 2: login form
-  const [selected, setSelected] = useState<string | null>(null)
+  const [selected, setSelected] = useState<string | null>(
+    urlPanel === 'juris' || urlPanel === 'cliente' ? urlPanel : null
+  )
+
+  // If param changes (e.g. user navigates back/forward), sync
+  useEffect(() => {
+    if (urlPanel === 'juris' || urlPanel === 'cliente') {
+      setSelected(urlPanel)
+    } else {
+      setSelected(null)
+    }
+  }, [urlPanel])
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
@@ -107,7 +122,15 @@ export default function LoginPage() {
 
         {/* Back button */}
         <button
-          onClick={() => { if (selected) { setSelected(null); setError('') } else navigate('/') }}
+          onClick={() => {
+            if (selected) {
+              setSelected(null)
+              setError('')
+              navigate('/login', { replace: true })
+            } else {
+              navigate('/')
+            }
+          }}
           className="flex items-center gap-2 text-sm font-sans mb-8 transition-colors"
           style={{ color: 'rgba(222,192,120,0.70)' }}
           onMouseEnter={e => (e.currentTarget.style.color = '#DEC078')}

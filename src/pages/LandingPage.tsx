@@ -422,7 +422,7 @@ export default function LandingPage() {
 
                   {/* Juris Center */}
                   <button
-                    onClick={() => { setAccessDropdown(false); navigate('/login') }}
+                    onClick={() => { setAccessDropdown(false); navigate('/login?panel=juris') }}
                     className="w-full flex items-center gap-3 px-4 py-3.5 transition-all group hover:bg-white/5"
                   >
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -440,7 +440,7 @@ export default function LandingPage() {
 
                   {/* Acesso do Cliente */}
                   <button
-                    onClick={() => { setAccessDropdown(false); navigate('/login') }}
+                    onClick={() => { setAccessDropdown(false); navigate('/login?panel=cliente') }}
                     className="w-full flex items-center gap-3 px-4 py-3.5 transition-all group hover:bg-white/5"
                   >
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -525,7 +525,7 @@ export default function LandingPage() {
                   </div>
                   <ExternalLink size={13} className="ml-auto" style={{ color: 'rgba(255,255,255,0.30)' }} />
                 </a>
-                <button onClick={() => { setMobileOpen(false); navigate('/login') }}
+                <button onClick={() => { setMobileOpen(false); navigate('/login?panel=juris') }}
                   className="w-full flex items-center gap-3 px-4 py-3.5 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
                   <Shield size={16} style={{ color: '#3b82f6' }} />
                   <div className="text-left">
@@ -534,7 +534,7 @@ export default function LandingPage() {
                   </div>
                   <Lock size={13} className="ml-auto" style={{ color: 'rgba(255,255,255,0.30)' }} />
                 </button>
-                <button onClick={() => { setMobileOpen(false); navigate('/login') }}
+                <button onClick={() => { setMobileOpen(false); navigate('/login?panel=cliente') }}
                   className="w-full flex items-center gap-3 px-4 py-3.5">
                   <Users size={16} style={{ color: '#DEC078' }} />
                   <div className="text-left">
@@ -620,14 +620,14 @@ export default function LandingPage() {
                   Ben Growth Center
                   <ExternalLink size={12} className="opacity-70" />
                 </a>
-                <button onClick={() => navigate('/login')}
+                <button onClick={() => navigate('/login?panel=juris')}
                   className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105"
                   style={{ background: 'rgba(59,130,246,0.12)', color: '#93c5fd', border: '2px solid rgba(59,130,246,0.45)' }}>
                   <Shield size={15} />
                   Ben Juris Center
                   <Lock size={12} className="opacity-70" />
                 </button>
-                <button onClick={() => navigate('/login')}
+                <button onClick={() => navigate('/login?panel=cliente')}
                   className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105"
                   style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', border: '2px solid rgba(255,255,255,0.30)' }}>
                   <Users size={15} />
@@ -859,7 +859,7 @@ export default function LandingPage() {
 
               <div className="mt-auto">
                 <div className="w-full h-px mb-6" style={{ background: 'rgba(59,130,246,0.18)' }} />
-                <button onClick={() => navigate('/login')}
+                <button onClick={() => navigate('/login?panel=juris')}
                   className="inline-flex items-center gap-2 w-full justify-center px-6 py-3.5 rounded-full font-bold text-sm font-sans transition-all duration-200 hover:scale-105"
                   style={{ background: 'rgba(59,130,246,0.15)', color: '#93c5fd', border: '1.5px solid rgba(59,130,246,0.45)' }}>
                   <Lock size={14} />Entrar no Ben Juris Center
@@ -949,10 +949,10 @@ export default function LandingPage() {
               className="btn-gold">
               <TrendingUp size={15} />Ben Growth Center
             </a>
-            <button onClick={() => navigate('/login')} className="btn-outline">
+            <button onClick={() => navigate('/login?panel=juris')} className="btn-outline">
               <Shield size={15} />Ben Juris Center
             </button>
-            <button onClick={() => navigate('/login')}
+            <button onClick={() => navigate('/login?panel=cliente')}
               className="btn-outline"
               style={{ borderColor: 'rgba(255,255,255,0.25)', color: 'rgba(255,255,255,0.75)' }}>
               <Users size={14} />Acesso do Cliente
