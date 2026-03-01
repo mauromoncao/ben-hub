@@ -16,7 +16,7 @@ const ACCESS_PANELS = [
     colorBorder: 'rgba(0,179,126,0.40)',
     loginTitle: 'Ben Growth Center',
     loginSub: 'Módulo 01 · Inteligência Comercial',
-    external: 'https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/',
+    external: 'https://ben-growth-center.vercel.app/',
   },
   {
     id: 'juris',

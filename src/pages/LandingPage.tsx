@@ -403,7 +403,7 @@ export default function LandingPage() {
 
                   {/* Growth Center */}
                   <a
-                    href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
+                    href="https://ben-growth-center.vercel.app/"
                     target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-3 px-4 py-3.5 transition-all group hover:bg-white/5"
                   >
@@ -514,7 +514,7 @@ export default function LandingPage() {
                 <div className="px-4 py-2 border-b" style={{ borderColor: 'rgba(222,192,120,0.12)' }}>
                   <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(222,192,120,0.55)' }}>Área de Acesso</p>
                 </div>
-                <a href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
+                <a href="https://ben-growth-center.vercel.app/"
                   target="_blank" rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center gap-3 px-4 py-3.5 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
@@ -612,7 +612,7 @@ export default function LandingPage() {
 
               {/* CTA buttons — three access points */}
               <div className="flex flex-col sm:flex-row flex-wrap items-start gap-3 mb-10">
-                <a href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
+                <a href="https://ben-growth-center.vercel.app/"
                   target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105 hover:shadow-xl"
                   style={{ background: 'linear-gradient(135deg,#D4A017,#F0C040)', color: '#0f2340', boxShadow: '0 4px 20px rgba(212,160,23,0.45)' }}>
@@ -808,7 +808,7 @@ export default function LandingPage() {
 
               <div className="mt-auto">
                 <div className="w-full h-px mb-6" style={{ background: 'rgba(0,179,126,0.18)' }} />
-                <a href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
+                <a href="https://ben-growth-center.vercel.app/"
                   target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 w-full justify-center px-6 py-3.5 rounded-full font-bold text-sm font-sans transition-all duration-200 hover:scale-105"
                   style={{ background: '#00b37e', color: '#fff', boxShadow: '0 4px 18px rgba(0,179,126,0.35)' }}>
@@ -944,7 +944,7 @@ export default function LandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 mb-12">
-            <a href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
+            <a href="https://ben-growth-center.vercel.app/"
               target="_blank" rel="noopener noreferrer"
               className="btn-gold">
               <TrendingUp size={15} />Ben Growth Center
