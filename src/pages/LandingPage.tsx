@@ -297,9 +297,9 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen font-sans" style={{ background: '#0f2340' }}>
 
-      {/* ══════════════════════════════════════════════════════════════════════
+      {/* ================================================================
           NAVBAR — same pattern as mauro-site header
-      ══════════════════════════════════════════════════════════════════════ */}
+      ================================================================ */}
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
@@ -311,11 +311,11 @@ export default function LandingPage() {
       >
         <div className="max-w-[1280px] mx-auto px-4 md:px-8 flex items-center justify-between h-[80px] gap-4">
 
-          {/* Logo MM */}
+          {/* Logo MM — transparente, ampliada, padrão mauro-site */}
           <a href="https://www.mauromoncao.adv.br" target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-3 shrink-0">
-            <img src="/logos/logo-mauro-moncao.png" alt="Mauro Monção Advogados Associados"
-              className="h-[52px] w-auto" style={{ imageRendering: 'crisp-edges' }} />
+            className="flex items-center shrink-0">
+            <img src="/logos/logo-mm-transparent.png" alt="Mauro Monção Advogados Associados"
+              className="h-[72px] w-auto" style={{ imageRendering: 'crisp-edges' }} />
           </a>
 
           {/* Desktop nav */}
@@ -423,27 +423,22 @@ export default function LandingPage() {
         )}
       </header>
 
-      {/* ══════════════════════════════════════════════════════════════════════
+      {/* ================================================================
           HERO — fundo dourado gradiente
-      ══════════════════════════════════════════════════════════════════════ */}
+      ================================================================ */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 overflow-hidden"
-        style={{ background: 'linear-gradient(145deg, #B8860B 0%, #C8960E 20%, #DEC078 45%, #F0C040 60%, #DEC078 78%, #B8860B 100%)' }}>
+        style={{
+          backgroundImage: 'url(/hero-bg.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat'
+        }}>
 
-        {/* Decorative elements */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full opacity-15"
-            style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 65%)' }} />
-          {/* Dot grid */}
-          <svg className="absolute inset-0 w-full h-full opacity-[0.06]" xmlns="http://www.w3.org/2000/svg">
-            <defs><pattern id="hdots" x="0" y="0" width="36" height="36" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.2" fill="#0f2340"/>
-            </pattern></defs>
-            <rect width="100%" height="100%" fill="url(#hdots)"/>
-          </svg>
-          {/* Bottom separator */}
-          <div className="absolute bottom-0 left-0 w-full h-1"
-            style={{ background: 'linear-gradient(90deg, transparent, rgba(15,35,64,0.40), transparent)' }} />
-        </div>
+        {/* Overlay escuro para legibilidade sobre a foto */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: 'linear-gradient(110deg, rgba(8,18,45,0.88) 0%, rgba(8,18,45,0.70) 55%, rgba(8,18,45,0.30) 100%)' }} />
+        <div className="absolute bottom-0 left-0 w-full h-px"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(222,192,120,0.40), transparent)' }} />
 
         <div ref={hero.ref}
           className={`relative w-full max-w-6xl mx-auto transition-all duration-1000 ${hero.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
@@ -454,35 +449,32 @@ export default function LandingPage() {
             <div className="text-left">
               {/* Eyebrow badge */}
               <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full text-xs font-semibold font-sans"
-                style={{ background: 'rgba(15,35,64,0.14)', border: '1px solid rgba(15,35,64,0.28)', color: '#19385C' }}>
-                <div className="w-1.5 h-1.5 rounded-full bg-[#19385C] animate-pulse" />
+                style={{ background: 'rgba(222,192,120,0.12)', border: '1px solid rgba(222,192,120,0.35)', color: '#DEC078' }}>
+                <div className="w-1.5 h-1.5 rounded-full bg-[#DEC078] animate-pulse" />
                 Mauro Monção Advogados Associados
               </div>
 
-              {/* Logos side-by-side */}
-              <div className="flex items-center gap-5 mb-8">
-                <img src="/logos/logo-mauro-moncao.png" alt="Mauro Monção Advogados Associados"
-                  className="h-14 w-auto" style={{ imageRendering: 'crisp-edges' }} />
-                <div className="w-px h-12" style={{ background: 'rgba(15,35,64,0.30)' }} />
-                <img src="/logos/logo-ben-hub.png" alt="BEN Strategic Intelligence Hub"
-                  className="h-14 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+              {/* Logo BEN Hub — sem fundo, ampliada */}
+              <div className="mb-6">
+                <img src="/logos/logo-ben-hub-nobg.png" alt="BEN Strategic Intelligence Hub"
+                  className="h-20 w-auto" style={{ imageRendering: 'crisp-edges' }} />
               </div>
 
               {/* Title */}
               <h1 className="font-serif font-bold leading-[1.05] mb-4"
-                style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: '#0f2340', letterSpacing: '-0.02em' }}>
+                style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: '#fff', letterSpacing: '-0.02em' }}>
                 BEN Strategic
-                <span className="block" style={{ color: '#19385C' }}>Intelligence Hub</span>
+                <span className="block" style={{ color: '#DEC078' }}>Intelligence Hub</span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-lg font-serif italic mb-5" style={{ color: 'rgba(15,35,64,0.72)' }}>
+              <p className="text-lg font-serif italic mb-5" style={{ color: 'rgba(222,192,120,0.85)' }}>
                 Núcleo estratégico do ecossistema institucional
               </p>
 
               {/* Body */}
               <p className="text-base md:text-[17px] leading-relaxed mb-9 font-sans max-w-lg"
-                style={{ color: 'rgba(15,35,64,0.78)' }}>
+                style={{ color: 'rgba(255,255,255,0.82)' }}>
                 Inteligência comercial, gestão jurídica, governança e performance integrados
                 em uma estrutura estratégica unificada — concebida para fortalecer a advocacia
                 contemporânea com organização, eficiência e visão de futuro.
@@ -493,14 +485,14 @@ export default function LandingPage() {
                 <a href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
                   target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105 hover:shadow-xl"
-                  style={{ background: '#0f2340', color: '#DEC078', boxShadow: '0 4px 20px rgba(15,35,64,0.30)' }}>
+                  style={{ background: 'linear-gradient(135deg,#D4A017,#F0C040)', color: '#0f2340', boxShadow: '0 4px 20px rgba(212,160,23,0.45)' }}>
                   <TrendingUp size={16} />
                   Acessar Ben Growth Center
                   <ExternalLink size={12} className="opacity-70" />
                 </a>
                 <button onClick={() => navigate('/login')}
                   className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105"
-                  style={{ background: 'rgba(15,35,64,0.12)', color: '#0f2340', border: '2px solid rgba(15,35,64,0.35)' }}>
+                  style={{ background: 'rgba(255,255,255,0.08)', color: '#fff', border: '2px solid rgba(255,255,255,0.35)' }}>
                   <Scale size={16} />
                   Acessar Ben Juris Center
                   <Lock size={12} className="opacity-70" />
@@ -509,7 +501,7 @@ export default function LandingPage() {
 
               {/* Scroll */}
               <a href="#sobre" className="inline-flex items-center gap-2 text-xs font-sans"
-                style={{ color: 'rgba(15,35,64,0.55)' }}>
+                style={{ color: 'rgba(255,255,255,0.55)' }}>
                 Conhecer o Ecossistema
                 <ChevronDown size={14} className="animate-bounce" />
               </a>
@@ -526,27 +518,25 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Module cards — mobile only illustration substitute */}
+          {/* Module cards — mobile */}
           <div className="lg:hidden grid grid-cols-2 gap-4 mt-8">
-            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl"
-              style={{ background: 'rgba(15,35,64,0.12)', border: '1px solid rgba(15,35,64,0.22)' }}>
-              <img src="/logos/logo-ben-centers.png" alt="Ben Growth Center"
-                className="h-10 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+            <div className="flex items-center justify-center px-4 py-3 rounded-2xl"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(222,192,120,0.22)' }}>
+              <img src="/logos/logo-ben-growth-nobg.png" alt="Ben Growth Center"
+                className="h-12 w-auto" style={{ imageRendering: 'crisp-edges' }} />
             </div>
-            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl"
-              style={{ background: 'rgba(15,35,64,0.12)', border: '1px solid rgba(15,35,64,0.22)' }}>
-              <div className="text-left">
-                <div className="text-xs font-bold font-sans" style={{ color: '#0f2340' }}>Ben Juris Center</div>
-                <div className="text-xs font-sans" style={{ color: 'rgba(15,35,64,0.60)' }}>Gestão Jurídica</div>
-              </div>
+            <div className="flex items-center justify-center px-4 py-3 rounded-2xl"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(222,192,120,0.22)' }}>
+              <img src="/logos/logo-ben-juris-nobg.png" alt="Ben Juris Center"
+                className="h-12 w-auto" style={{ imageRendering: 'crisp-edges' }} />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════════════
+      {/* ================================================================
           SOBRE O HUB
-      ══════════════════════════════════════════════════════════════════════ */}
+      ================================================================ */}
       <section id="sobre" className="py-24 px-6 md:px-12"
         style={{ background: 'linear-gradient(180deg, #0f2340 0%, #19385C 100%)' }}>
         <div ref={about.ref}
@@ -563,18 +553,12 @@ export default function LandingPage() {
                 Advocacia contemporânea com estrutura, inteligência e governança.
               </p>
 
-              {/* Brand logos in section */}
+              {/* Brand logos — sem fundo, ampliadas */}
               <div className="flex flex-col gap-5">
-                <div className="flex items-center gap-3 px-4 py-3 rounded-2xl"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(222,192,120,0.18)' }}>
-                  <img src="/logos/logo-mauro-moncao.png" alt="Mauro Monção"
-                    className="h-10 w-auto" style={{ imageRendering: 'crisp-edges' }} />
-                </div>
-                <div className="flex items-center gap-3 px-4 py-3 rounded-2xl"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(222,192,120,0.18)' }}>
-                  <img src="/logos/logo-ben-hub.png" alt="BEN Strategic Intelligence Hub"
-                    className="h-10 w-auto" style={{ imageRendering: 'crisp-edges' }} />
-                </div>
+                <img src="/logos/logo-mm-transparent.png" alt="Mauro Monção Advogados Associados"
+                  className="h-16 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+                <img src="/logos/logo-ben-hub-nobg.png" alt="BEN Strategic Intelligence Hub"
+                  className="h-16 w-auto" style={{ imageRendering: 'crisp-edges' }} />
               </div>
 
               {[
@@ -632,9 +616,9 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════════════
+      {/* ================================================================
           OS DOIS PILARES — with real logos
-      ══════════════════════════════════════════════════════════════════════ */}
+      ================================================================ */}
       <section id="modulos" className="py-24 px-6 md:px-12" style={{ background: '#19385C' }}>
         <div ref={pillars.ref}
           className={`max-w-5xl mx-auto transition-all duration-1000 ${pillars.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
@@ -655,10 +639,10 @@ export default function LandingPage() {
             {/* Growth Center */}
             <div className="glass-card p-8 flex flex-col transition-all duration-300 group hover:scale-[1.01]"
               style={{ borderColor: 'rgba(0,179,126,0.30)' }}>
-              {/* Logo */}
-              <div className="mb-6 flex items-center gap-4">
-                <img src="/logos/logo-ben-centers.png" alt="Ben Growth Center"
-                  className="h-16 w-auto max-w-[180px]" style={{ imageRendering: 'crisp-edges' }} />
+              {/* Logo Growth — sem fundo, ampliada */}
+              <div className="mb-4">
+                <img src="/logos/logo-ben-growth-nobg.png" alt="Ben Growth Center"
+                  className="h-20 w-auto" style={{ imageRendering: 'crisp-edges' }} />
               </div>
               <div className="flex items-center gap-2 mb-2">
                 <div className="text-xs font-semibold font-sans uppercase tracking-widest"
@@ -700,19 +684,10 @@ export default function LandingPage() {
             {/* Juris Center */}
             <div className="glass-card p-8 flex flex-col transition-all duration-300 group hover:scale-[1.01]"
               style={{ borderColor: 'rgba(59,130,246,0.30)' }}>
-              {/* Logo */}
-              <div className="mb-6 flex items-center gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.25), rgba(59,130,246,0.10))', border: '1px solid rgba(59,130,246,0.35)' }}>
-                    <Scale size={26} style={{ color: '#3b82f6' }} />
-                  </div>
-                  <div>
-                    <div className="text-xs font-semibold font-sans uppercase tracking-widest mb-1"
-                      style={{ color: 'rgba(59,130,246,0.80)' }}>Módulo 02</div>
-                    <h3 className="font-serif font-bold text-2xl text-white">Ben Juris Center</h3>
-                  </div>
-                </div>
+              {/* Logo Juris — sem fundo, ampliada */}
+              <div className="mb-4">
+                <img src="/logos/logo-ben-juris-nobg.png" alt="Ben Juris Center"
+                  className="h-20 w-auto" style={{ imageRendering: 'crisp-edges' }} />
               </div>
 
               <p className="text-sm leading-7 font-sans mb-6" style={{ color: 'rgba(255,255,255,0.72)' }}>
@@ -753,9 +728,9 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════════════
+      {/* ================================================================
           DIFERENCIAL ESTRATÉGICO
-      ══════════════════════════════════════════════════════════════════════ */}
+      ================================================================ */}
       <section id="diferencial" className="py-24 px-6 md:px-12"
         style={{ background: 'linear-gradient(180deg, #19385C 0%, #0f2340 100%)' }}>
         <div ref={diff.ref}
@@ -796,9 +771,9 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════════════
+      {/* ================================================================
           FOOTER / ASSINATURA
-      ══════════════════════════════════════════════════════════════════════ */}
+      ================================================================ */}
       <section className="py-20 px-6 md:px-12 text-center relative overflow-hidden"
         style={{ background: '#0f2340' }}>
         <div className="absolute inset-0 pointer-events-none">
@@ -811,13 +786,13 @@ export default function LandingPage() {
         <div ref={footer.ref}
           className={`relative max-w-3xl mx-auto transition-all duration-1000 ${footer.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-          {/* Logos */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-10">
-            <img src="/logos/logo-mauro-moncao.png" alt="Mauro Monção Advogados Associados"
-              className="h-14 w-auto" style={{ imageRendering: 'crisp-edges' }} />
-            <div className="hidden sm:block w-px h-12" style={{ background: 'rgba(222,192,120,0.35)' }} />
-            <img src="/logos/logo-ben-hub.png" alt="BEN Strategic Intelligence Hub"
-              className="h-14 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+          {/* Logos footer — sem fundo, ampliadas */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-10 mb-10">
+            <img src="/logos/logo-mm-transparent.png" alt="Mauro Monção Advogados Associados"
+              className="h-20 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+            <div className="hidden sm:block w-px h-14" style={{ background: 'rgba(222,192,120,0.35)' }} />
+            <img src="/logos/logo-ben-hub-nobg.png" alt="BEN Strategic Intelligence Hub"
+              className="h-20 w-auto" style={{ imageRendering: 'crisp-edges' }} />
           </div>
 
           <h3 className="font-serif font-bold text-3xl text-white mb-3" style={{ letterSpacing: '-0.02em' }}>
