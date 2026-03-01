@@ -3,8 +3,78 @@ import { useNavigate } from 'react-router-dom'
 import {
   TrendingUp, Scale, Shield, Brain, Layers, Target,
   Zap, BarChart3, Users, Globe, Lock, ChevronDown,
-  ExternalLink, Menu, X
+  ExternalLink, Menu, X, ChevronRight
 } from 'lucide-react'
+
+// ── BEN Strategic Intelligence Hub — Inline SVG Logo ─────────────────────────
+// Fully scalable, never cropped, uses exact brand colors
+function BenHubLogo({ height = 80 }: { height?: number }) {
+  // Icon width proportional: icon is ~square, text roughly 2.2x icon
+  const iconSize = height
+  const textH = height * 0.38
+  const gap = height * 0.18
+  const totalW = iconSize + gap + iconSize * 2.55
+  const totalH = height
+
+  return (
+    <svg
+      viewBox={`0 0 ${totalW} ${totalH}`}
+      height={height}
+      width={totalW}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="BEN Strategic Intelligence Hub"
+      style={{ display: 'block', flexShrink: 0 }}
+    >
+      {/* ── Icon background circle ── */}
+      <circle cx={iconSize / 2} cy={totalH / 2} r={iconSize / 2 - 1} fill="#19385C" stroke="#DEC078" strokeWidth={iconSize * 0.03} />
+      {/* ── Brain circuit icon ── */}
+      <g transform={`translate(${iconSize * 0.18}, ${totalH / 2 - iconSize * 0.28}) scale(${iconSize / 120})`}>
+        {/* Brain outline */}
+        <path d="M77 17 C77 8 70 2 62 2 C57 2 52 5 50 10 C48 5 43 2 38 2 C30 2 23 8 23 17 C23 22 25 27 29 30 L29 52 C29 56 32 59 36 59 L64 59 C68 59 71 56 71 52 L71 30 C75 27 77 22 77 17 Z"
+          stroke="#DEC078" strokeWidth="3" fill="rgba(222,192,120,0.10)" />
+        {/* Vertical spine */}
+        <line x1="50" y1="18" x2="50" y2="59" stroke="#DEC078" strokeWidth="2.5" />
+        {/* Horizontal connectors */}
+        <line x1="36" y1="25" x2="24" y2="25" stroke="#DEC078" strokeWidth="2" />
+        <line x1="64" y1="25" x2="76" y2="25" stroke="#DEC078" strokeWidth="2" />
+        {/* Node dots */}
+        <circle cx="24" cy="25" r="4" fill="#DEC078" />
+        <circle cx="76" cy="25" r="4" fill="#DEC078" />
+        <circle cx="50" cy="59" r="4" fill="#DEC078" />
+        {/* Branch connectors */}
+        <line x1="38" y1="40" x2="28" y2="50" stroke="#DEC078" strokeWidth="1.8" />
+        <line x1="62" y1="40" x2="72" y2="50" stroke="#DEC078" strokeWidth="1.8" />
+        <circle cx="28" cy="50" r="3.5" fill="#DEC078" />
+        <circle cx="72" cy="50" r="3.5" fill="#DEC078" />
+      </g>
+
+      {/* ── Text: BEN ── */}
+      <text
+        x={iconSize + gap}
+        y={totalH * 0.50}
+        fontFamily="Cormorant Garamond, Georgia, serif"
+        fontWeight="700"
+        fontSize={height * 0.52}
+        fill="#FFFFFF"
+        dominantBaseline="middle"
+        letterSpacing="2"
+      >BEN</text>
+
+      {/* ── Text: STRATEGIC INTELLIGENCE HUB ── */}
+      <text
+        x={iconSize + gap}
+        y={totalH * 0.50 + height * 0.29}
+        fontFamily="Outfit, Arial, sans-serif"
+        fontWeight="600"
+        fontSize={textH}
+        fill="#DEC078"
+        dominantBaseline="middle"
+        letterSpacing="1.8"
+      >STRATEGIC INTELLIGENCE HUB</text>
+    </svg>
+  )
+}
 
 // ── Intersection observer hook ───────────────────────────────────────────────
 function useVisible(threshold = 0.12) {
@@ -279,6 +349,7 @@ export default function LandingPage() {
   const navigate = useNavigate()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [accessDropdown, setAccessDropdown] = useState(false)
 
   const hero = useVisible(0.05)
   const about = useVisible(0.12)
@@ -355,12 +426,90 @@ export default function LandingPage() {
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0" />
             </a>
 
-            {/* Login restrito */}
-            <button onClick={() => navigate('/login')}
-              className="flex items-center gap-2 text-[13px] font-bold px-4 py-2 rounded-full transition-all whitespace-nowrap"
-              style={{ background: 'rgba(222,192,120,0.08)', border: '1.5px solid rgba(222,192,120,0.40)', color: '#DEC078' }}>
-              <Lock size={13} /> Área Restrita
-            </button>
+            {/* Área Restrita — dropdown com 3 acessos */}
+            <div className="relative">
+              <button
+                onClick={() => setAccessDropdown(!accessDropdown)}
+                onBlur={() => setTimeout(() => setAccessDropdown(false), 180)}
+                className="flex items-center gap-2 text-[13px] font-bold px-4 py-2 rounded-full transition-all whitespace-nowrap"
+                style={{ background: 'rgba(222,192,120,0.08)', border: '1.5px solid rgba(222,192,120,0.40)', color: '#DEC078' }}>
+                <Lock size={13} /> Área Restrita <ChevronDown size={12} className={`transition-transform duration-200 ${accessDropdown ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Dropdown panel */}
+              {accessDropdown && (
+                <div
+                  className="absolute right-0 top-[calc(100%+8px)] z-50 w-72 rounded-2xl overflow-hidden"
+                  style={{
+                    background: 'rgba(10,22,50,0.97)',
+                    border: '1.5px solid rgba(222,192,120,0.35)',
+                    backdropFilter: 'blur(18px)',
+                    boxShadow: '0 8px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(222,192,120,0.08)'
+                  }}
+                >
+                  <div className="px-4 py-3 border-b" style={{ borderColor: 'rgba(222,192,120,0.15)' }}>
+                    <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(222,192,120,0.60)' }}>Selecione o Acesso</p>
+                  </div>
+
+                  {/* Growth Center */}
+                  <a
+                    href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
+                    target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-3 px-4 py-3.5 transition-all group hover:bg-white/5"
+                  >
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'rgba(0,179,126,0.15)', border: '1px solid rgba(0,179,126,0.40)' }}>
+                      <TrendingUp size={16} style={{ color: '#00b37e' }} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-[13px] font-bold text-white group-hover:text-[#00b37e] transition-colors">Ben Growth Center</div>
+                      <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Módulo 01 · Inteligência Comercial</div>
+                    </div>
+                    <ChevronRight size={14} style={{ color: 'rgba(255,255,255,0.30)' }} />
+                  </a>
+
+                  <div className="mx-4" style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+
+                  {/* Juris Center */}
+                  <button
+                    onClick={() => { setAccessDropdown(false); navigate('/login') }}
+                    className="w-full flex items-center gap-3 px-4 py-3.5 transition-all group hover:bg-white/5"
+                  >
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'rgba(59,130,246,0.15)', border: '1px solid rgba(59,130,246,0.40)' }}>
+                      <Shield size={16} style={{ color: '#3b82f6' }} />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <div className="text-[13px] font-bold text-white group-hover:text-[#3b82f6] transition-colors">Ben Juris Center</div>
+                      <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Módulo 02 · Gestão Jurídica</div>
+                    </div>
+                    <Lock size={12} style={{ color: 'rgba(255,255,255,0.30)' }} />
+                  </button>
+
+                  <div className="mx-4" style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+
+                  {/* Acesso do Cliente */}
+                  <button
+                    onClick={() => { setAccessDropdown(false); navigate('/login') }}
+                    className="w-full flex items-center gap-3 px-4 py-3.5 transition-all group hover:bg-white/5"
+                  >
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'rgba(222,192,120,0.12)', border: '1px solid rgba(222,192,120,0.35)' }}>
+                      <Users size={16} style={{ color: '#DEC078' }} />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <div className="text-[13px] font-bold text-white group-hover:text-[#DEC078] transition-colors">Acesso do Cliente</div>
+                      <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Credenciais fornecidas pelo escritório</div>
+                    </div>
+                    <Lock size={12} style={{ color: 'rgba(255,255,255,0.30)' }} />
+                  </button>
+
+                  <div className="px-4 py-2.5" style={{ background: 'rgba(0,0,0,0.25)' }}>
+                    <p className="text-[10px] text-center" style={{ color: 'rgba(255,255,255,0.28)' }}>Credenciais emitidas pelo administrador</p>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Fale Conosco */}
             <a href={waUrl} target="_blank" rel="noopener noreferrer"
@@ -410,11 +559,41 @@ export default function LandingPage() {
                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               </a>
 
-              <button onClick={() => { setMobileOpen(false); navigate('/login') }}
-                className="mt-2 flex items-center justify-center gap-2 py-3.5 rounded-full text-[15px] font-bold"
-                style={{ background: 'rgba(222,192,120,0.08)', border: '1.5px solid rgba(222,192,120,0.40)', color: '#DEC078' }}>
-                <Lock size={16} /> Área Restrita
-              </button>
+              {/* Mobile — 3 access options */}
+              <div className="mt-2 rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(222,192,120,0.25)', background: 'rgba(255,255,255,0.03)' }}>
+                <div className="px-4 py-2 border-b" style={{ borderColor: 'rgba(222,192,120,0.12)' }}>
+                  <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(222,192,120,0.55)' }}>Área de Acesso</p>
+                </div>
+                <a href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
+                  target="_blank" rel="noopener noreferrer"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3.5 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+                  <TrendingUp size={16} style={{ color: '#00b37e' }} />
+                  <div>
+                    <div className="text-[14px] font-bold text-white">Ben Growth Center</div>
+                    <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Módulo 01</div>
+                  </div>
+                  <ExternalLink size={13} className="ml-auto" style={{ color: 'rgba(255,255,255,0.30)' }} />
+                </a>
+                <button onClick={() => { setMobileOpen(false); navigate('/login') }}
+                  className="w-full flex items-center gap-3 px-4 py-3.5 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+                  <Shield size={16} style={{ color: '#3b82f6' }} />
+                  <div className="text-left">
+                    <div className="text-[14px] font-bold text-white">Ben Juris Center</div>
+                    <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Módulo 02</div>
+                  </div>
+                  <Lock size={13} className="ml-auto" style={{ color: 'rgba(255,255,255,0.30)' }} />
+                </button>
+                <button onClick={() => { setMobileOpen(false); navigate('/login') }}
+                  className="w-full flex items-center gap-3 px-4 py-3.5">
+                  <Users size={16} style={{ color: '#DEC078' }} />
+                  <div className="text-left">
+                    <div className="text-[14px] font-bold text-white">Acesso do Cliente</div>
+                    <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Credenciais do escritório</div>
+                  </div>
+                  <Lock size={13} className="ml-auto" style={{ color: 'rgba(255,255,255,0.30)' }} />
+                </button>
+              </div>
 
               <a href={waUrl} target="_blank" rel="noopener noreferrer"
                 className="mt-2 bg-[#D4A017] text-[#0f2340] text-center px-4 py-3.5 rounded-full text-[15px] font-bold hover:brightness-110 transition-all">
@@ -456,10 +635,9 @@ export default function LandingPage() {
                 Mauro Monção Advogados Associados
               </div>
 
-              {/* Logo BEN Hub — sem fundo, ampliada (cropped, tamanho real) */}
-              <div className="mb-6">
-                <img src="/logos/logo-ben-hub-crop.png" alt="BEN Strategic Intelligence Hub"
-                  className="w-auto" style={{ height: '90px', imageRendering: 'crisp-edges', objectFit: 'contain' }} />
+              {/* Logo BEN Hub — SVG inline, nunca cortado */}
+              <div className="mb-6 overflow-visible">
+                <BenHubLogo height={76} />
               </div>
 
               {/* Title */}
@@ -566,8 +744,7 @@ export default function LandingPage() {
                 <img src="/logos/logo-mm-crop.png" alt="Mauro Monção Advogados Associados"
                   style={{ height: '52px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
                 <div className="w-px h-10 hidden sm:block" style={{ background: 'rgba(222,192,120,0.30)' }} />
-                <img src="/logos/logo-ben-hub-crop.png" alt="BEN Strategic Intelligence Hub"
-                  style={{ height: '52px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
+                <BenHubLogo height={42} />
               </div>
 
               {[
@@ -806,8 +983,7 @@ export default function LandingPage() {
             <img src="/logos/logo-mm-crop.png" alt="Mauro Monção Advogados Associados"
               style={{ height: '64px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
             <div className="hidden sm:block w-px h-12" style={{ background: 'rgba(222,192,120,0.35)' }} />
-            <img src="/logos/logo-ben-hub-crop.png" alt="BEN Strategic Intelligence Hub"
-              style={{ height: '56px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
+            <BenHubLogo height={52} />
           </div>
 
           <h3 className="font-serif font-bold text-3xl text-white mb-3" style={{ letterSpacing: '-0.02em' }}>
