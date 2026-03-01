@@ -1,232 +1,603 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  ArrowRight, Shield, TrendingUp, Brain, Scale, BarChart3,
-  Users, Target, Layers, Zap, Globe, Lock, ChevronDown, ExternalLink
+  TrendingUp, Scale, Shield, Brain, Layers, Target,
+  Zap, BarChart3, Users, Globe, Lock, ChevronDown,
+  ExternalLink, Menu, X
 } from 'lucide-react'
 
-// ── Logos SVG inline ─────────────────────────────────────────────────────────
-function LogoMM() {
-  return (
-    <svg viewBox="0 0 120 40" className="h-9 w-auto" fill="none">
-      <rect width="32" height="32" rx="4" x="0" y="4" fill="none" stroke="#DEC078" strokeWidth="1.5"/>
-      <text x="16" y="23" textAnchor="middle" fontFamily="Cormorant Garamond,serif" fontSize="18" fontWeight="700" fill="#DEC078">M</text>
-      <line x1="38" y1="8" x2="38" y2="36" stroke="#DEC078" strokeWidth="1" opacity="0.5"/>
-      <text x="80" y="20" textAnchor="middle" fontFamily="Cormorant Garamond,serif" fontSize="13" fontWeight="700" fill="#fff" letterSpacing="1">MAURO MONÇÃO</text>
-      <text x="80" y="32" textAnchor="middle" fontFamily="Outfit,sans-serif" fontSize="7" fill="#DEC078" letterSpacing="2.5">ADVOGADOS ASSOCIADOS</text>
-    </svg>
-  )
-}
-
-function LogoBen() {
-  return (
-    <svg viewBox="0 0 140 40" className="h-9 w-auto" fill="none">
-      <circle cx="20" cy="20" r="16" fill="none" stroke="#DEC078" strokeWidth="1.5"/>
-      <path d="M14 14 L20 26 L26 14" stroke="#DEC078" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-      <circle cx="20" cy="20" r="3" fill="#DEC078"/>
-      <text x="75" y="18" textAnchor="middle" fontFamily="Cormorant Garamond,serif" fontSize="16" fontWeight="700" fill="#fff" letterSpacing="2">BEN</text>
-      <text x="75" y="31" textAnchor="middle" fontFamily="Outfit,sans-serif" fontSize="6.5" fill="#DEC078" letterSpacing="2.5">STRATEGIC INTELLIGENCE HUB</text>
-    </svg>
-  )
-}
-
-// ── hook de intersecção para animações ───────────────────────────────────────
-function useVisible(threshold = 0.15) {
+// ── Intersection observer hook ───────────────────────────────────────────────
+function useVisible(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true) }, { threshold })
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVisible(true) },
+      { threshold }
+    )
     if (ref.current) obs.observe(ref.current)
     return () => obs.disconnect()
   }, [])
   return { ref, visible }
 }
 
-// ── componente principal ─────────────────────────────────────────────────────
+// ── WhatsApp / Dr.Ben floating buttons ───────────────────────────────────────
+function FloatingButtons() {
+  const [dismissed, setDismissed] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 800)
+    return () => clearTimeout(t)
+  }, [])
+
+  if (dismissed) return null
+
+  const waPhone = '5586994820054'
+  const waMsg = 'Olá Dr. Ben! Gostaria de uma orientação jurídica.'
+  const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(waMsg)}`
+
+  return (
+    <>
+      <style>{`
+        @keyframes floatIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .float-btn { animation: floatIn 0.45s ease forwards; }
+        .float-btn-chat { animation-delay: 0.1s; opacity: 0; }
+        .float-btn-wa   { animation-delay: 0.28s; opacity: 0; }
+        @keyframes pulseRing {
+          0%   { transform: scale(1);    opacity: 0.6; }
+          70%  { transform: scale(1.35); opacity: 0; }
+          100% { transform: scale(1.35); opacity: 0; }
+        }
+        .pulse-gold  { animation: pulseRing 2.2s ease-out infinite; }
+        .pulse-green { animation: pulseRing 2.2s ease-out infinite 0.5s; }
+      `}</style>
+
+      <div
+        className="fixed bottom-6 right-4 z-50 flex flex-col items-end gap-3"
+        style={{ filter: mounted ? 'none' : 'opacity(0)' }}
+      >
+        {/* Chat Dr. Ben */}
+        <a
+          href="https://mauromoncao.adv.br/assistente-juridico"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat com Dr. Ben"
+          className="float-btn float-btn-chat group relative flex items-center gap-0 hover:gap-2.5 overflow-hidden rounded-full transition-all duration-300 ease-out hover:pr-4"
+          style={{
+            background: 'linear-gradient(135deg, #0f2340 0%, #19385C 100%)',
+            border: '2.5px solid #D4A017',
+            boxShadow: '0 0 18px rgba(212,160,23,0.45), 0 4px 16px rgba(0,0,0,0.4)',
+            height: '56px',
+            minWidth: '56px',
+          }}
+        >
+          <span className="pulse-gold absolute rounded-full pointer-events-none"
+            style={{ width: '56px', height: '56px', border: '2px solid rgba(212,160,23,0.55)', right: 0 }} />
+          <div className="w-[52px] h-[52px] rounded-full overflow-hidden shrink-0"
+            style={{ border: '2px solid rgba(212,160,23,0.5)' }}>
+            <img src="/dr-ben.jpg" alt="Dr. Ben" className="w-full h-full object-cover object-top" />
+          </div>
+          <span className="text-[13px] font-bold whitespace-nowrap overflow-hidden max-w-0 group-hover:max-w-[160px] transition-all duration-300"
+            style={{ color: '#D4A017' }}>
+            Chat Jurídico
+          </span>
+          <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full flex items-center justify-center border-[2px] border-white"
+            style={{ background: 'linear-gradient(135deg,#D4A017,#F0C040)' }}>
+            <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="#0f2340">
+              <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/>
+            </svg>
+          </div>
+          <div className="absolute -top-0.5 -left-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white shadow" />
+        </a>
+
+        {/* WhatsApp */}
+        <a
+          href={waUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="WhatsApp Dr. Ben"
+          className="float-btn float-btn-wa group relative flex items-center gap-0 hover:gap-2.5 overflow-hidden rounded-full transition-all duration-300 ease-out hover:pr-4"
+          style={{
+            background: 'linear-gradient(135deg, #0f2340 0%, #19385C 100%)',
+            border: '2.5px solid #25D366',
+            boxShadow: '0 0 18px rgba(37,211,102,0.35), 0 4px 16px rgba(0,0,0,0.4)',
+            height: '56px',
+            minWidth: '56px',
+          }}
+        >
+          <span className="pulse-green absolute rounded-full pointer-events-none"
+            style={{ width: '56px', height: '56px', border: '2px solid rgba(37,211,102,0.5)', right: 0 }} />
+          <div className="w-[52px] h-[52px] rounded-full overflow-hidden shrink-0"
+            style={{ border: '2px solid rgba(37,211,102,0.45)' }}>
+            <img src="/dr-ben.jpg" alt="Dr. Ben" className="w-full h-full object-cover object-top" />
+          </div>
+          <span className="text-[13px] font-bold whitespace-nowrap overflow-hidden max-w-0 group-hover:max-w-[160px] transition-all duration-300"
+            style={{ color: '#25D366' }}>
+            WhatsApp
+          </span>
+          <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full flex items-center justify-center border-[2px] border-white"
+            style={{ background: '#25D366' }}>
+            <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="white">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+            </svg>
+          </div>
+          <div className="absolute -top-0.5 -left-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white shadow" />
+        </a>
+
+        <button onClick={() => setDismissed(true)}
+          className="text-[10px] text-white/35 hover:text-white/60 transition-colors tracking-wide">
+          fechar
+        </button>
+      </div>
+    </>
+  )
+}
+
+// ── Ecosystem SVG Illustration ────────────────────────────────────────────────
+function EcosystemIllustration() {
+  return (
+    <svg viewBox="0 0 520 340" fill="none" xmlns="http://www.w3.org/2000/svg"
+      className="w-full max-w-xl mx-auto" aria-label="Ecossistema BEN Strategic Intelligence Hub">
+
+      {/* ── Background glow ── */}
+      <defs>
+        <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#DEC078" stopOpacity="0.18"/>
+          <stop offset="100%" stopColor="#DEC078" stopOpacity="0"/>
+        </radialGradient>
+        <radialGradient id="growthGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#00b37e" stopOpacity="0.20"/>
+          <stop offset="100%" stopColor="#00b37e" stopOpacity="0"/>
+        </radialGradient>
+        <radialGradient id="jurisGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.20"/>
+          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0"/>
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      {/* Outer orbit ring */}
+      <ellipse cx="260" cy="170" rx="220" ry="140" stroke="rgba(222,192,120,0.12)" strokeWidth="1" strokeDasharray="6 4"/>
+      <ellipse cx="260" cy="170" rx="165" ry="105" stroke="rgba(222,192,120,0.08)" strokeWidth="1" strokeDasharray="4 6"/>
+
+      {/* Radial connection lines — center to modules */}
+      <line x1="260" y1="170" x2="108" y2="170" stroke="rgba(222,192,120,0.30)" strokeWidth="1.5" strokeDasharray="5 3"/>
+      <line x1="260" y1="170" x2="412" y2="170" stroke="rgba(222,192,120,0.30)" strokeWidth="1.5" strokeDasharray="5 3"/>
+      <line x1="260" y1="170" x2="200" y2="52"  stroke="rgba(222,192,120,0.18)" strokeWidth="1" strokeDasharray="4 4"/>
+      <line x1="260" y1="170" x2="320" y2="52"  stroke="rgba(222,192,120,0.18)" strokeWidth="1" strokeDasharray="4 4"/>
+      <line x1="260" y1="170" x2="200" y2="290" stroke="rgba(222,192,120,0.18)" strokeWidth="1" strokeDasharray="4 4"/>
+      <line x1="260" y1="170" x2="320" y2="290" stroke="rgba(222,192,120,0.18)" strokeWidth="1" strokeDasharray="4 4"/>
+
+      {/* Connection line Growth ↔ Juris */}
+      <path d="M 148 170 Q 260 100 372 170" stroke="rgba(222,192,120,0.15)" strokeWidth="1" fill="none" strokeDasharray="5 3"/>
+
+      {/* ── CENTER — BEN Strategic Intelligence Hub ── */}
+      <circle cx="260" cy="170" r="62" fill="url(#centerGlow)"/>
+      <circle cx="260" cy="170" r="58" fill="#0f2340" stroke="#DEC078" strokeWidth="1.8"/>
+      <circle cx="260" cy="170" r="52" fill="none" stroke="rgba(222,192,120,0.25)" strokeWidth="1"/>
+
+      {/* Brain circuit icon — center */}
+      <g transform="translate(236,146)" filter="url(#glow)">
+        {/* Brain outline */}
+        <path d="M24 4C18 4 13 8 12 14C11 8 6 4 0 4C-3 4 -6 6.5 -6 10C-6 13.5 -3 16 0 16H1C1 20 4 23 8 23H16C20 23 23 20 23 16H24C27 16 30 13.5 30 10C30 6.5 27 4 24 4Z" stroke="#DEC078" strokeWidth="1.5" fill="rgba(222,192,120,0.08)"/>
+        {/* Circuit lines */}
+        <line x1="12" y1="14" x2="12" y2="23" stroke="#DEC078" strokeWidth="1.2"/>
+        <line x1="8" y1="10" x2="4" y2="10" stroke="#DEC078" strokeWidth="1"/>
+        <line x1="16" y1="10" x2="20" y2="10" stroke="#DEC078" strokeWidth="1"/>
+        <circle cx="4" cy="10" r="1.5" fill="#DEC078"/>
+        <circle cx="20" cy="10" r="1.5" fill="#DEC078"/>
+        <circle cx="12" cy="23" r="1.5" fill="#DEC078"/>
+        <line x1="8" y1="17" x2="5" y2="20" stroke="#DEC078" strokeWidth="1"/>
+        <line x1="16" y1="17" x2="19" y2="20" stroke="#DEC078" strokeWidth="1"/>
+        <circle cx="5" cy="20" r="1.5" fill="#DEC078"/>
+        <circle cx="19" cy="20" r="1.5" fill="#DEC078"/>
+      </g>
+
+      {/* Center label */}
+      <text x="260" y="205" textAnchor="middle" fill="#DEC078" fontFamily="Cormorant Garamond,serif" fontSize="9.5" fontWeight="700" letterSpacing="2">BEN</text>
+      <text x="260" y="215" textAnchor="middle" fill="rgba(222,192,120,0.65)" fontFamily="Outfit,sans-serif" fontSize="6" letterSpacing="1.5">STRATEGIC HUB</text>
+
+      {/* ── LEFT — Ben Growth Center ── */}
+      <circle cx="108" cy="170" r="44" fill="url(#growthGlow)"/>
+      <circle cx="108" cy="170" r="40" fill="#0a1e38" stroke="rgba(0,179,126,0.60)" strokeWidth="1.8"/>
+
+      {/* Growth icon — bar chart + arrow */}
+      <g transform="translate(88,155)">
+        <rect x="0"  y="14" width="6" height="6" rx="1" fill="#00b37e" opacity="0.8"/>
+        <rect x="8"  y="9"  width="6" height="11" rx="1" fill="#00b37e" opacity="0.9"/>
+        <rect x="16" y="4"  width="6" height="16" rx="1" fill="#00b37e"/>
+        <path d="M2 12 L10 5 L20 2" stroke="#00b37e" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+        <polygon points="20,2 20,7 25,2" fill="#00b37e"/>
+      </g>
+
+      <text x="108" y="204" textAnchor="middle" fill="#00b37e" fontFamily="Outfit,sans-serif" fontSize="6.5" fontWeight="700" letterSpacing="1">BEN GROWTH</text>
+      <text x="108" y="213" textAnchor="middle" fill="rgba(0,179,126,0.65)" fontFamily="Outfit,sans-serif" fontSize="5.5" letterSpacing="1">CENTER</text>
+
+      {/* ── RIGHT — Ben Juris Center ── */}
+      <circle cx="412" cy="170" r="44" fill="url(#jurisGlow)"/>
+      <circle cx="412" cy="170" r="40" fill="#0a1e38" stroke="rgba(59,130,246,0.60)" strokeWidth="1.8"/>
+
+      {/* Juris icon — shield + scale */}
+      <g transform="translate(392,150)">
+        {/* Shield */}
+        <path d="M20 2 L36 7 L36 19 Q36 28 20 33 Q4 28 4 19 L4 7 Z" stroke="#3b82f6" strokeWidth="1.5" fill="rgba(59,130,246,0.12)"/>
+        {/* Scale/balance */}
+        <line x1="20" y1="10" x2="20" y2="28" stroke="#3b82f6" strokeWidth="1.2"/>
+        <line x1="12" y1="14" x2="28" y2="14" stroke="#3b82f6" strokeWidth="1.2"/>
+        <circle cx="12" cy="18" r="2.5" stroke="#3b82f6" strokeWidth="1" fill="rgba(59,130,246,0.2)"/>
+        <circle cx="28" cy="18" r="2.5" stroke="#3b82f6" strokeWidth="1" fill="rgba(59,130,246,0.2)"/>
+      </g>
+
+      <text x="412" y="204" textAnchor="middle" fill="#3b82f6" fontFamily="Outfit,sans-serif" fontSize="6.5" fontWeight="700" letterSpacing="1">BEN JURIS</text>
+      <text x="412" y="213" textAnchor="middle" fill="rgba(59,130,246,0.65)" fontFamily="Outfit,sans-serif" fontSize="5.5" letterSpacing="1">CENTER</text>
+
+      {/* ── Satellite nodes ── */}
+      {/* Top-left: Inteligência */}
+      <circle cx="200" cy="52" r="22" fill="#0a1e38" stroke="rgba(222,192,120,0.35)" strokeWidth="1.2"/>
+      <text x="200" y="49" textAnchor="middle" fill="rgba(222,192,120,0.9)" fontFamily="Outfit,sans-serif" fontSize="6" fontWeight="600">Inteligência</text>
+      <text x="200" y="58" textAnchor="middle" fill="rgba(222,192,120,0.6)" fontFamily="Outfit,sans-serif" fontSize="5">Aplicada</text>
+
+      {/* Top-right: Estratégia */}
+      <circle cx="320" cy="52" r="22" fill="#0a1e38" stroke="rgba(222,192,120,0.35)" strokeWidth="1.2"/>
+      <text x="320" y="49" textAnchor="middle" fill="rgba(222,192,120,0.9)" fontFamily="Outfit,sans-serif" fontSize="6" fontWeight="600">Estratégia</text>
+      <text x="320" y="58" textAnchor="middle" fill="rgba(222,192,120,0.6)" fontFamily="Outfit,sans-serif" fontSize="5">& Governança</text>
+
+      {/* Bottom-left: Performance */}
+      <circle cx="200" cy="290" r="22" fill="#0a1e38" stroke="rgba(222,192,120,0.35)" strokeWidth="1.2"/>
+      <text x="200" y="287" textAnchor="middle" fill="rgba(222,192,120,0.9)" fontFamily="Outfit,sans-serif" fontSize="6" fontWeight="600">Performance</text>
+      <text x="200" y="296" textAnchor="middle" fill="rgba(222,192,120,0.6)" fontFamily="Outfit,sans-serif" fontSize="5">& Dados</text>
+
+      {/* Bottom-right: Integração */}
+      <circle cx="320" cy="290" r="22" fill="#0a1e38" stroke="rgba(222,192,120,0.35)" strokeWidth="1.2"/>
+      <text x="320" y="287" textAnchor="middle" fill="rgba(222,192,120,0.9)" fontFamily="Outfit,sans-serif" fontSize="6" fontWeight="600">Integração</text>
+      <text x="320" y="296" textAnchor="middle" fill="rgba(222,192,120,0.6)" fontFamily="Outfit,sans-serif" fontSize="5">& Escalabilidade</text>
+
+      {/* Animated pulse dots on connection lines */}
+      <circle cx="184" cy="170" r="2.5" fill="#DEC078" opacity="0.7">
+        <animate attributeName="cx" values="184;140;108" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.4;0" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="336" cy="170" r="2.5" fill="#DEC078" opacity="0.7">
+        <animate attributeName="cx" values="336;380;412" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+        <animate attributeName="opacity" values="0.8;0.4;0" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+      </circle>
+    </svg>
+  )
+}
+
+// ── Main Component ────────────────────────────────────────────────────────────
 export default function LandingPage() {
   const navigate = useNavigate()
-  const hero = useVisible(0.1)
-  const about = useVisible(0.15)
-  const pillars = useVisible(0.1)
-  const diff = useVisible(0.1)
-  const footer = useVisible(0.1)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  const hero = useVisible(0.05)
+  const about = useVisible(0.12)
+  const pillars = useVisible(0.08)
+  const diff = useVisible(0.08)
+  const footer = useVisible(0.08)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const waPhone = '5586994820054'
+  const waMsg = 'Olá! Gostaria de informações sobre o BEN Strategic Intelligence Hub.'
+  const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(waMsg)}`
 
   return (
     <div className="min-h-screen font-sans" style={{ background: '#0f2340' }}>
 
-      {/* ══ NAVBAR ══════════════════════════════════════════════════════════ */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4"
-        style={{ background: 'rgba(15,35,64,0.92)', borderBottom: '1px solid rgba(222,192,120,0.15)', backdropFilter: 'blur(12px)' }}>
-        <LogoMM />
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium" style={{ color: 'rgba(255,255,255,0.75)' }}>
-          <a href="#sobre" className="hover:text-gold transition-colors" style={{ color: 'rgba(255,255,255,0.75)' }}>Sobre o Hub</a>
-          <a href="#modulos" className="hover:text-gold transition-colors" style={{ color: 'rgba(255,255,255,0.75)' }}>Módulos</a>
-          <a href="#diferencial" className="hover:text-gold transition-colors" style={{ color: 'rgba(255,255,255,0.75)' }}>Diferenciais</a>
-          <button onClick={() => navigate('/login')} className="btn-outline text-xs px-5 py-2.5">
-            <Lock size={13} /> Área Restrita
+      {/* ══════════════════════════════════════════════════════════════════════
+          NAVBAR — same pattern as mauro-site header
+      ══════════════════════════════════════════════════════════════════════ */}
+      <header
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          background: scrolled ? 'rgba(15,35,64,0.97)' : '#0f2340',
+          borderBottom: '2px solid rgba(212,160,23,0.45)',
+          backdropFilter: scrolled ? 'blur(14px)' : 'none',
+          boxShadow: scrolled ? '0 4px 20px rgba(0,0,0,0.35)' : 'none',
+        }}
+      >
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 flex items-center justify-between h-[80px] gap-4">
+
+          {/* Logo MM */}
+          <a href="https://www.mauromoncao.adv.br" target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-3 shrink-0">
+            <img src="/logos/logo-mauro-moncao.png" alt="Mauro Monção Advogados Associados"
+              className="h-[52px] w-auto" style={{ imageRendering: 'crisp-edges' }} />
+          </a>
+
+          {/* Desktop nav */}
+          <nav className="hidden xl:flex items-center gap-5 flex-1 justify-end">
+            <a href="https://www.mauromoncao.adv.br" target="_blank" rel="noopener noreferrer"
+              className="text-[14px] font-semibold text-white/85 hover:text-[#D4A017] transition-colors whitespace-nowrap">
+              Site Principal
+            </a>
+            <a href="#sobre"
+              className="text-[14px] font-semibold text-white/85 hover:text-[#D4A017] transition-colors whitespace-nowrap">
+              Sobre o Hub
+            </a>
+            <a href="#modulos"
+              className="text-[14px] font-semibold text-white/85 hover:text-[#D4A017] transition-colors whitespace-nowrap">
+              Módulos
+            </a>
+            <a href="#diferencial"
+              className="text-[14px] font-semibold text-white/85 hover:text-[#D4A017] transition-colors whitespace-nowrap">
+              Diferenciais
+            </a>
+
+            {/* Dr. Ben badge */}
+            <a href="https://mauromoncao.adv.br/assistente-juridico"
+              target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 border-2 text-[#0f2340] px-3.5 py-2 rounded-full text-[13px] font-bold transition-all whitespace-nowrap shadow-lg"
+              style={{
+                background: 'linear-gradient(135deg, #D4A017, #F0C040, #C8960E)',
+                borderColor: '#F0C040',
+                boxShadow: '0 0 16px rgba(212,160,23,0.55), 0 2px 8px rgba(0,0,0,0.3)',
+              }}>
+              <div className="w-6 h-6 rounded-full overflow-hidden border-2 border-[#0f2340]/30 shrink-0">
+                <img src="/dr-ben.jpg" alt="Dr. Ben" className="w-full h-full object-cover object-top" />
+              </div>
+              <span className="font-black">Dr. Ben</span>
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0" />
+            </a>
+
+            {/* Login restrito */}
+            <button onClick={() => navigate('/login')}
+              className="flex items-center gap-2 text-[13px] font-bold px-4 py-2 rounded-full transition-all whitespace-nowrap"
+              style={{ background: 'rgba(222,192,120,0.08)', border: '1.5px solid rgba(222,192,120,0.40)', color: '#DEC078' }}>
+              <Lock size={13} /> Área Restrita
+            </button>
+
+            {/* Fale Conosco */}
+            <a href={waUrl} target="_blank" rel="noopener noreferrer"
+              className="bg-[#D4A017] text-[#0f2340] px-5 py-2.5 rounded-full text-[14px] font-bold hover:brightness-110 transition-all whitespace-nowrap shadow-md"
+              style={{ boxShadow: '0 0 12px rgba(212,160,23,0.45)' }}>
+              Fale Conosco
+            </a>
+          </nav>
+
+          {/* Mobile toggle */}
+          <button
+            className="xl:hidden p-2 text-[#D4A017]"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu">
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-        <button onClick={() => navigate('/login')} className="md:hidden btn-outline text-xs px-4 py-2">
-          <Lock size={13} />
-        </button>
-      </nav>
 
-      {/* ══ HERO ════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 pb-16 overflow-hidden"
-        style={{ background: 'linear-gradient(145deg, #C8960E 0%, #DEC078 35%, #F0C040 55%, #DEC078 75%, #B8860B 100%)' }}>
-        {/* bg decorativo */}
+        {/* Mobile nav */}
+        {mobileOpen && (
+          <div className="xl:hidden bg-[#0f2340] border-t border-[#D4A017]/30 px-5 pb-6">
+            <div className="flex flex-col gap-0.5 pt-3">
+              {[
+                { href: 'https://www.mauromoncao.adv.br', label: 'Site Principal', external: true },
+                { href: '#sobre',       label: 'Sobre o Hub',  external: false },
+                { href: '#modulos',     label: 'Módulos',      external: false },
+                { href: '#diferencial', label: 'Diferenciais', external: false },
+              ].map(l => (
+                <a key={l.label}
+                  href={l.href}
+                  target={l.external ? '_blank' : undefined}
+                  rel={l.external ? 'noopener noreferrer' : undefined}
+                  onClick={() => setMobileOpen(false)}
+                  className="py-3.5 border-b border-white/10 text-white/90 text-[16px] font-semibold hover:text-[#D4A017] transition-colors">
+                  {l.label}
+                </a>
+              ))}
+
+              <a href="https://mauromoncao.adv.br/assistente-juridico"
+                target="_blank" rel="noopener noreferrer"
+                className="mt-4 flex items-center justify-center gap-3 border-2 text-[#0f2340] py-3.5 rounded-full text-[15px] font-bold"
+                style={{ background: 'linear-gradient(135deg, #D4A017, #F0C040, #C8960E)', borderColor: '#F0C040', boxShadow: '0 0 16px rgba(212,160,23,0.5)' }}>
+                <div className="w-7 h-7 rounded-full overflow-hidden border-2 border-[#0f2340]/30">
+                  <img src="/dr-ben.jpg" alt="Dr. Ben" className="w-full h-full object-cover object-top" />
+                </div>
+                <span className="font-black">Dr. Ben — Assistente IA</span>
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              </a>
+
+              <button onClick={() => { setMobileOpen(false); navigate('/login') }}
+                className="mt-2 flex items-center justify-center gap-2 py-3.5 rounded-full text-[15px] font-bold"
+                style={{ background: 'rgba(222,192,120,0.08)', border: '1.5px solid rgba(222,192,120,0.40)', color: '#DEC078' }}>
+                <Lock size={16} /> Área Restrita
+              </button>
+
+              <a href={waUrl} target="_blank" rel="noopener noreferrer"
+                className="mt-2 bg-[#D4A017] text-[#0f2340] text-center px-4 py-3.5 rounded-full text-[15px] font-bold hover:brightness-110 transition-all">
+                Fale Conosco
+              </a>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          HERO — fundo dourado gradiente
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 overflow-hidden"
+        style={{ background: 'linear-gradient(145deg, #B8860B 0%, #C8960E 20%, #DEC078 45%, #F0C040 60%, #DEC078 78%, #B8860B 100%)' }}>
+
+        {/* Decorative elements */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full opacity-20"
-            style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)' }} />
-          <div className="absolute bottom-0 left-0 w-full h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(15,35,64,0.35), transparent)' }} />
-          {/* grade de pontos navy */}
-          <svg className="absolute inset-0 w-full h-full opacity-[0.07]" xmlns="http://www.w3.org/2000/svg">
-            <defs><pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1" fill="#0f2340"/>
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full opacity-15"
+            style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 65%)' }} />
+          {/* Dot grid */}
+          <svg className="absolute inset-0 w-full h-full opacity-[0.06]" xmlns="http://www.w3.org/2000/svg">
+            <defs><pattern id="hdots" x="0" y="0" width="36" height="36" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1.2" fill="#0f2340"/>
             </pattern></defs>
-            <rect width="100%" height="100%" fill="url(#dots)"/>
+            <rect width="100%" height="100%" fill="url(#hdots)"/>
           </svg>
+          {/* Bottom separator */}
+          <div className="absolute bottom-0 left-0 w-full h-1"
+            style={{ background: 'linear-gradient(90deg, transparent, rgba(15,35,64,0.40), transparent)' }} />
         </div>
 
         <div ref={hero.ref}
-          className={`relative max-w-4xl transition-all duration-1000 ${hero.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          className={`relative w-full max-w-6xl mx-auto transition-all duration-1000 ${hero.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-          {/* badge */}
-          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full text-xs font-medium font-sans"
-            style={{ background: 'rgba(15,35,64,0.12)', border: '1px solid rgba(15,35,64,0.25)', color: '#19385C' }}>
-            <div className="w-1.5 h-1.5 rounded-full animate-pulse-slow" style={{ background: '#19385C' }} />
-            Mauro Monção Advogados Associados · Ecossistema Estratégico
-          </div>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
 
-          {/* título */}
-          <h1 className="font-serif font-bold leading-none mb-4"
-            style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', color: '#0f2340', letterSpacing: '-0.02em' }}>
-            BEN Strategic
-            <span className="block" style={{ color: '#19385C' }}>Intelligence Hub</span>
-          </h1>
-
-          {/* subtítulo */}
-          <p className="text-lg md:text-xl font-serif italic mb-6" style={{ color: 'rgba(15,35,64,0.75)' }}>
-            Núcleo estratégico do ecossistema institucional
-          </p>
-
-          {/* texto de apoio */}
-          <p className="max-w-2xl mx-auto text-base md:text-lg leading-relaxed mb-10 font-sans"
-            style={{ color: 'rgba(15,35,64,0.80)' }}>
-            O Ben Strategic Intelligence Hub integra inteligência comercial, gestão jurídica,
-            governança e performance em uma estrutura estratégica unificada, concebida para
-            fortalecer a advocacia contemporânea com organização, eficiência e visão de futuro.
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <a href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
-              target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm font-sans transition-all duration-200 hover:scale-105"
-              style={{ background: '#0f2340', color: '#DEC078', border: '1px solid #0f2340' }}>
-              <TrendingUp size={16} />Ben Growth Center
-              <ExternalLink size={13} className="opacity-70" />
-            </a>
-            <button onClick={() => navigate('/login')}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm font-sans transition-all duration-200 hover:scale-105"
-              style={{ background: 'rgba(15,35,64,0.15)', color: '#0f2340', border: '1px solid rgba(15,35,64,0.40)' }}>
-              <Scale size={16} />Ben Juris Center
-              <Lock size={13} className="opacity-70" />
-            </button>
-            <a href="#sobre"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm font-sans transition-all duration-200 hover:scale-105"
-              style={{ background: 'rgba(15,35,64,0.08)', color: 'rgba(15,35,64,0.70)', border: '1px solid rgba(15,35,64,0.20)' }}>
-              Conhecer o Ecossistema
-              <ChevronDown size={14} />
-            </a>
-          </div>
-
-          {/* logos dos módulos */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-            <div className="px-6 py-3 flex items-center gap-3 transition-all rounded-xl"
-              style={{ background: 'rgba(15,35,64,0.10)', border: '1px solid rgba(15,35,64,0.20)' }}>
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: 'rgba(15,35,64,0.15)' }}>
-                <TrendingUp size={18} style={{ color: '#0f2340' }} />
+            {/* Left — text */}
+            <div className="text-left">
+              {/* Eyebrow badge */}
+              <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full text-xs font-semibold font-sans"
+                style={{ background: 'rgba(15,35,64,0.14)', border: '1px solid rgba(15,35,64,0.28)', color: '#19385C' }}>
+                <div className="w-1.5 h-1.5 rounded-full bg-[#19385C] animate-pulse" />
+                Mauro Monção Advogados Associados
               </div>
-              <div className="text-left">
-                <div className="text-xs font-bold font-sans" style={{ color: '#0f2340' }}>Ben Growth Center</div>
-                <div className="text-xs font-sans" style={{ color: 'rgba(15,35,64,0.65)' }}>Inteligência Comercial</div>
+
+              {/* Logos side-by-side */}
+              <div className="flex items-center gap-5 mb-8">
+                <img src="/logos/logo-mauro-moncao.png" alt="Mauro Monção Advogados Associados"
+                  className="h-14 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+                <div className="w-px h-12" style={{ background: 'rgba(15,35,64,0.30)' }} />
+                <img src="/logos/logo-ben-hub.png" alt="BEN Strategic Intelligence Hub"
+                  className="h-14 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+              </div>
+
+              {/* Title */}
+              <h1 className="font-serif font-bold leading-[1.05] mb-4"
+                style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', color: '#0f2340', letterSpacing: '-0.02em' }}>
+                BEN Strategic
+                <span className="block" style={{ color: '#19385C' }}>Intelligence Hub</span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-lg font-serif italic mb-5" style={{ color: 'rgba(15,35,64,0.72)' }}>
+                Núcleo estratégico do ecossistema institucional
+              </p>
+
+              {/* Body */}
+              <p className="text-base md:text-[17px] leading-relaxed mb-9 font-sans max-w-lg"
+                style={{ color: 'rgba(15,35,64,0.78)' }}>
+                Inteligência comercial, gestão jurídica, governança e performance integrados
+                em uma estrutura estratégica unificada — concebida para fortalecer a advocacia
+                contemporânea com organização, eficiência e visão de futuro.
+              </p>
+
+              {/* CTA buttons */}
+              <div className="flex flex-col sm:flex-row items-start gap-4 mb-10">
+                <a href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
+                  target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105 hover:shadow-xl"
+                  style={{ background: '#0f2340', color: '#DEC078', boxShadow: '0 4px 20px rgba(15,35,64,0.30)' }}>
+                  <TrendingUp size={16} />
+                  Acessar Ben Growth Center
+                  <ExternalLink size={12} className="opacity-70" />
+                </a>
+                <button onClick={() => navigate('/login')}
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105"
+                  style={{ background: 'rgba(15,35,64,0.12)', color: '#0f2340', border: '2px solid rgba(15,35,64,0.35)' }}>
+                  <Scale size={16} />
+                  Acessar Ben Juris Center
+                  <Lock size={12} className="opacity-70" />
+                </button>
+              </div>
+
+              {/* Scroll */}
+              <a href="#sobre" className="inline-flex items-center gap-2 text-xs font-sans"
+                style={{ color: 'rgba(15,35,64,0.55)' }}>
+                Conhecer o Ecossistema
+                <ChevronDown size={14} className="animate-bounce" />
+              </a>
+            </div>
+
+            {/* Right — SVG Ecosystem Illustration */}
+            <div className="hidden lg:flex items-center justify-center">
+              <div className="relative w-full">
+                {/* Glow backdrop */}
+                <div className="absolute inset-0 rounded-3xl opacity-30"
+                  style={{ background: 'radial-gradient(circle at 50% 50%, rgba(15,35,64,0.2), transparent 70%)' }} />
+                <EcosystemIllustration />
               </div>
             </div>
-            <div className="w-px h-8 hidden sm:block" style={{ background: 'rgba(15,35,64,0.25)' }} />
-            <div className="px-6 py-3 flex items-center gap-3 transition-all rounded-xl"
-              style={{ background: 'rgba(15,35,64,0.10)', border: '1px solid rgba(15,35,64,0.20)' }}>
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: 'rgba(15,35,64,0.15)' }}>
-                <Scale size={18} style={{ color: '#0f2340' }} />
-              </div>
+          </div>
+
+          {/* Module cards — mobile only illustration substitute */}
+          <div className="lg:hidden grid grid-cols-2 gap-4 mt-8">
+            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl"
+              style={{ background: 'rgba(15,35,64,0.12)', border: '1px solid rgba(15,35,64,0.22)' }}>
+              <img src="/logos/logo-ben-centers.png" alt="Ben Growth Center"
+                className="h-10 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+            </div>
+            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl"
+              style={{ background: 'rgba(15,35,64,0.12)', border: '1px solid rgba(15,35,64,0.22)' }}>
               <div className="text-left">
                 <div className="text-xs font-bold font-sans" style={{ color: '#0f2340' }}>Ben Juris Center</div>
-                <div className="text-xs font-sans" style={{ color: 'rgba(15,35,64,0.65)' }}>Gestão Jurídica</div>
+                <div className="text-xs font-sans" style={{ color: 'rgba(15,35,64,0.60)' }}>Gestão Jurídica</div>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-50">
-          <span className="text-xs font-sans" style={{ color: '#0f2340' }}>scroll</span>
-          <ChevronDown size={14} style={{ color: '#0f2340' }} className="animate-bounce" />
         </div>
       </section>
 
-      {/* ══ SOBRE O HUB ═════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════════════
+          SOBRE O HUB
+      ══════════════════════════════════════════════════════════════════════ */}
       <section id="sobre" className="py-24 px-6 md:px-12"
         style={{ background: 'linear-gradient(180deg, #0f2340 0%, #19385C 100%)' }}>
         <div ref={about.ref}
           className={`max-w-5xl mx-auto transition-all duration-1000 delay-100 ${about.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-          <div className="flex flex-col md:flex-row gap-16 items-start">
-            {/* left */}
+          <div className="flex flex-col md:flex-row gap-14 items-start">
+            {/* Left */}
             <div className="md:w-2/5">
               <div className="section-divider mb-5" />
               <h2 className="font-serif font-bold text-4xl text-white mb-4" style={{ letterSpacing: '-0.02em' }}>
                 O Núcleo <span style={{ color: '#DEC078' }}>Estratégico</span>
               </h2>
-              <p className="font-serif italic text-lg mb-6" style={{ color: 'rgba(222,192,120,0.80)' }}>
+              <p className="font-serif italic text-lg mb-8" style={{ color: 'rgba(222,192,120,0.80)' }}>
                 Advocacia contemporânea com estrutura, inteligência e governança.
               </p>
-              <div className="flex items-center gap-3 mt-8">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: 'rgba(222,192,120,0.15)', border: '1px solid rgba(222,192,120,0.30)' }}>
-                  <Brain size={18} style={{ color: '#DEC078' }} />
+
+              {/* Brand logos in section */}
+              <div className="flex flex-col gap-5">
+                <div className="flex items-center gap-3 px-4 py-3 rounded-2xl"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(222,192,120,0.18)' }}>
+                  <img src="/logos/logo-mauro-moncao.png" alt="Mauro Monção"
+                    className="h-10 w-auto" style={{ imageRendering: 'crisp-edges' }} />
                 </div>
-                <div>
-                  <div className="text-sm font-bold text-white font-sans">Inteligência Aplicada</div>
-                  <div className="text-xs font-sans" style={{ color: 'rgba(255,255,255,0.55)' }}>Decisões orientadas por dados e processos</div>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 mt-4">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: 'rgba(222,192,120,0.15)', border: '1px solid rgba(222,192,120,0.30)' }}>
-                  <Layers size={18} style={{ color: '#DEC078' }} />
-                </div>
-                <div>
-                  <div className="text-sm font-bold text-white font-sans">Ecossistema Integrado</div>
-                  <div className="text-xs font-sans" style={{ color: 'rgba(255,255,255,0.55)' }}>Módulos conectados, visão unificada</div>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-2xl"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(222,192,120,0.18)' }}>
+                  <img src="/logos/logo-ben-hub.png" alt="BEN Strategic Intelligence Hub"
+                    className="h-10 w-auto" style={{ imageRendering: 'crisp-edges' }} />
                 </div>
               </div>
-              <div className="flex items-center gap-3 mt-4">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: 'rgba(222,192,120,0.15)', border: '1px solid rgba(222,192,120,0.30)' }}>
-                  <Shield size={18} style={{ color: '#DEC078' }} />
+
+              {[
+                { icon: Brain, title: 'Inteligência Aplicada', sub: 'Decisões orientadas por dados e processos' },
+                { icon: Layers, title: 'Ecossistema Integrado', sub: 'Módulos conectados, visão unificada' },
+                { icon: Shield, title: 'Governança Institucional', sub: 'Controle, conformidade e segurança' },
+              ].map(item => (
+                <div key={item.title} className="flex items-center gap-3 mt-5">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'rgba(222,192,120,0.12)', border: '1px solid rgba(222,192,120,0.28)' }}>
+                    <item.icon size={18} style={{ color: '#DEC078' }} />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-white font-sans">{item.title}</div>
+                    <div className="text-xs font-sans" style={{ color: 'rgba(255,255,255,0.52)' }}>{item.sub}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-sm font-bold text-white font-sans">Governança Institucional</div>
-                  <div className="text-xs font-sans" style={{ color: 'rgba(255,255,255,0.55)' }}>Controle, conformidade e segurança</div>
-                </div>
-              </div>
+              ))}
             </div>
 
-            {/* right */}
+            {/* Right */}
             <div className="md:w-3/5">
-              <p className="text-base md:text-lg leading-8 font-sans mb-6" style={{ color: 'rgba(255,255,255,0.80)' }}>
+              <p className="text-base md:text-lg leading-8 font-sans mb-6" style={{ color: 'rgba(255,255,255,0.82)' }}>
                 O <strong style={{ color: '#DEC078' }}>Ben Strategic Intelligence Hub</strong> é o núcleo estratégico
                 que integra inteligência comercial, gestão jurídica, governança e performance em um único
                 ecossistema estruturado.
@@ -243,16 +614,16 @@ export default function LandingPage() {
                 institucional do escritório.
               </p>
 
-              {/* métricas */}
+              {/* Metrics */}
               <div className="grid grid-cols-3 gap-4 mt-10">
                 {[
                   { n: '2', label: 'Módulos Centrais' },
                   { n: '360°', label: 'Visão Estratégica' },
                   { n: '1', label: 'Ecossistema Unificado' },
                 ].map(m => (
-                  <div key={m.label} className="text-center glass-card py-4 px-2 transition-all">
+                  <div key={m.label} className="text-center glass-card py-5 px-2 transition-all">
                     <div className="font-serif font-bold text-3xl" style={{ color: '#DEC078' }}>{m.n}</div>
-                    <div className="text-xs font-sans mt-1" style={{ color: 'rgba(255,255,255,0.60)' }}>{m.label}</div>
+                    <div className="text-xs font-sans mt-1" style={{ color: 'rgba(255,255,255,0.58)' }}>{m.label}</div>
                   </div>
                 ))}
               </div>
@@ -261,17 +632,20 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ══ OS DOIS PILARES ══════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════════════
+          OS DOIS PILARES — with real logos
+      ══════════════════════════════════════════════════════════════════════ */}
       <section id="modulos" className="py-24 px-6 md:px-12" style={{ background: '#19385C' }}>
         <div ref={pillars.ref}
           className={`max-w-5xl mx-auto transition-all duration-1000 ${pillars.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-          <div className="text-center mb-16">
-            <div className="section-divider mx-auto mb-5" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #DEC078, transparent)' }} />
+          <div className="text-center mb-14">
+            <div className="section-divider mx-auto mb-5"
+              style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #DEC078, transparent)' }} />
             <h2 className="font-serif font-bold text-4xl text-white mb-3" style={{ letterSpacing: '-0.02em' }}>
               Os Dois <span style={{ color: '#DEC078' }}>Pilares</span> do Ecossistema
             </h2>
-            <p className="text-base font-sans max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.65)' }}>
+            <p className="text-base font-sans max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.62)' }}>
               Módulos premium interligados, cada um especializado em sua frente estratégica.
             </p>
           </div>
@@ -279,18 +653,19 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-2 gap-8">
 
             {/* Growth Center */}
-            <div className="glass-card p-8 flex flex-col transition-all duration-300 group"
-              style={{ borderColor: 'rgba(222,192,120,0.25)' }}>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: 'linear-gradient(135deg, rgba(222,192,120,0.25), rgba(222,192,120,0.10))', border: '1px solid rgba(222,192,120,0.35)' }}>
-                  <TrendingUp size={26} style={{ color: '#DEC078' }} />
-                </div>
-                <div>
-                  <div className="text-xs font-semibold font-sans uppercase tracking-widest mb-1" style={{ color: 'rgba(222,192,120,0.70)' }}>Módulo 01</div>
-                  <h3 className="font-serif font-bold text-2xl text-white">Ben Growth Center</h3>
-                </div>
+            <div className="glass-card p-8 flex flex-col transition-all duration-300 group hover:scale-[1.01]"
+              style={{ borderColor: 'rgba(0,179,126,0.30)' }}>
+              {/* Logo */}
+              <div className="mb-6 flex items-center gap-4">
+                <img src="/logos/logo-ben-centers.png" alt="Ben Growth Center"
+                  className="h-16 w-auto max-w-[180px]" style={{ imageRendering: 'crisp-edges' }} />
               </div>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="text-xs font-semibold font-sans uppercase tracking-widest"
+                  style={{ color: 'rgba(0,179,126,0.80)' }}>Módulo 01</div>
+                <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#00b37e' }} />
+              </div>
+              <h3 className="font-serif font-bold text-2xl text-white mb-4">Ben Growth Center</h3>
 
               <p className="text-sm leading-7 font-sans mb-6" style={{ color: 'rgba(255,255,255,0.72)' }}>
                 Centro de inteligência comercial, tráfego, CRM e performance, voltado à organização
@@ -305,33 +680,38 @@ export default function LandingPage() {
                   { icon: Target, text: 'Performance e dados' },
                 ].map(item => (
                   <div key={item.text} className="flex items-center gap-2">
-                    <item.icon size={13} style={{ color: '#DEC078', flexShrink: 0 }} />
-                    <span className="text-xs font-sans" style={{ color: 'rgba(255,255,255,0.70)' }}>{item.text}</span>
+                    <item.icon size={13} style={{ color: '#00b37e', flexShrink: 0 }} />
+                    <span className="text-xs font-sans" style={{ color: 'rgba(255,255,255,0.68)' }}>{item.text}</span>
                   </div>
                 ))}
               </div>
 
               <div className="mt-auto">
-                <div className="w-full h-px mb-6" style={{ background: 'rgba(222,192,120,0.15)' }} />
+                <div className="w-full h-px mb-6" style={{ background: 'rgba(0,179,126,0.18)' }} />
                 <a href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
                   target="_blank" rel="noopener noreferrer"
-                  className="btn-gold w-full justify-center">
+                  className="inline-flex items-center gap-2 w-full justify-center px-6 py-3.5 rounded-full font-bold text-sm font-sans transition-all duration-200 hover:scale-105"
+                  style={{ background: '#00b37e', color: '#fff', boxShadow: '0 4px 18px rgba(0,179,126,0.35)' }}>
                   Entrar no Ben Growth Center <ExternalLink size={13} />
                 </a>
               </div>
             </div>
 
             {/* Juris Center */}
-            <div className="glass-card p-8 flex flex-col transition-all duration-300 group"
-              style={{ borderColor: 'rgba(222,192,120,0.25)' }}>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: 'linear-gradient(135deg, rgba(222,192,120,0.25), rgba(222,192,120,0.10))', border: '1px solid rgba(222,192,120,0.35)' }}>
-                  <Scale size={26} style={{ color: '#DEC078' }} />
-                </div>
-                <div>
-                  <div className="text-xs font-semibold font-sans uppercase tracking-widest mb-1" style={{ color: 'rgba(222,192,120,0.70)' }}>Módulo 02</div>
-                  <h3 className="font-serif font-bold text-2xl text-white">Ben Juris Center</h3>
+            <div className="glass-card p-8 flex flex-col transition-all duration-300 group hover:scale-[1.01]"
+              style={{ borderColor: 'rgba(59,130,246,0.30)' }}>
+              {/* Logo */}
+              <div className="mb-6 flex items-center gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.25), rgba(59,130,246,0.10))', border: '1px solid rgba(59,130,246,0.35)' }}>
+                    <Scale size={26} style={{ color: '#3b82f6' }} />
+                  </div>
+                  <div>
+                    <div className="text-xs font-semibold font-sans uppercase tracking-widest mb-1"
+                      style={{ color: 'rgba(59,130,246,0.80)' }}>Módulo 02</div>
+                    <h3 className="font-serif font-bold text-2xl text-white">Ben Juris Center</h3>
+                  </div>
                 </div>
               </div>
 
@@ -340,7 +720,7 @@ export default function LandingPage() {
                 gestão de processos, prazos, documentos, contratos, fluxos internos e governança institucional.
               </p>
 
-              <div className="grid grid-cols-2 gap-3 mb-8">
+              <div className="grid grid-cols-2 gap-3 mb-6">
                 {[
                   { icon: Scale, text: 'Gestão jurídica' },
                   { icon: Shield, text: 'Processos e prazos' },
@@ -348,89 +728,96 @@ export default function LandingPage() {
                   { icon: Brain, text: 'Operação pública' },
                 ].map(item => (
                   <div key={item.text} className="flex items-center gap-2">
-                    <item.icon size={13} style={{ color: '#DEC078', flexShrink: 0 }} />
-                    <span className="text-xs font-sans" style={{ color: 'rgba(255,255,255,0.70)' }}>{item.text}</span>
+                    <item.icon size={13} style={{ color: '#3b82f6', flexShrink: 0 }} />
+                    <span className="text-xs font-sans" style={{ color: 'rgba(255,255,255,0.68)' }}>{item.text}</span>
                   </div>
                 ))}
               </div>
 
-              {/* badge acesso restrito */}
-              <div className="flex items-center gap-2 mb-6 px-3 py-2 rounded-xl text-xs font-sans"
-                style={{ background: 'rgba(222,192,120,0.10)', border: '1px solid rgba(222,192,120,0.25)', color: 'rgba(222,192,120,0.85)' }}>
+              <div className="flex items-center gap-2 mb-6 px-3 py-2.5 rounded-xl text-xs font-sans"
+                style={{ background: 'rgba(59,130,246,0.10)', border: '1px solid rgba(59,130,246,0.25)', color: 'rgba(147,197,253,0.90)' }}>
                 <Lock size={12} />
                 Acesso restrito — credenciais fornecidas pelo administrador
               </div>
 
               <div className="mt-auto">
-                <div className="w-full h-px mb-6" style={{ background: 'rgba(222,192,120,0.15)' }} />
-                <button onClick={() => window.location.href = '/login'}
-                  className="btn-outline w-full justify-center">
+                <div className="w-full h-px mb-6" style={{ background: 'rgba(59,130,246,0.18)' }} />
+                <button onClick={() => navigate('/login')}
+                  className="inline-flex items-center gap-2 w-full justify-center px-6 py-3.5 rounded-full font-bold text-sm font-sans transition-all duration-200 hover:scale-105"
+                  style={{ background: 'rgba(59,130,246,0.15)', color: '#93c5fd', border: '1.5px solid rgba(59,130,246,0.45)' }}>
                   <Lock size={14} />Entrar no Ben Juris Center
                 </button>
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* ══ DIFERENCIAL ═════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════════════
+          DIFERENCIAL ESTRATÉGICO
+      ══════════════════════════════════════════════════════════════════════ */}
       <section id="diferencial" className="py-24 px-6 md:px-12"
         style={{ background: 'linear-gradient(180deg, #19385C 0%, #0f2340 100%)' }}>
         <div ref={diff.ref}
           className={`max-w-5xl mx-auto transition-all duration-1000 ${diff.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-          <div className="text-center mb-16">
-            <div className="section-divider mx-auto mb-5" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #DEC078, transparent)' }} />
+          <div className="text-center mb-14">
+            <div className="section-divider mx-auto mb-5"
+              style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #DEC078, transparent)' }} />
             <h2 className="font-serif font-bold text-4xl text-white mb-3" style={{ letterSpacing: '-0.02em' }}>
               Diferencial <span style={{ color: '#DEC078' }}>Estratégico</span>
             </h2>
-            <p className="text-base font-sans max-w-2xl mx-auto leading-7" style={{ color: 'rgba(255,255,255,0.65)' }}>
-              Mais do que uma plataforma, o Ben Strategic Intelligence Hub representa uma arquitetura
-              de trabalho pensada para uma advocacia de alta performance: integrada, organizada,
-              inteligente e orientada por dados, processos e estratégia.
+            <p className="text-base font-sans max-w-2xl mx-auto leading-7" style={{ color: 'rgba(255,255,255,0.62)' }}>
+              Uma arquitetura de trabalho pensada para a advocacia de alta performance:
+              integrada, organizada, inteligente e orientada por dados, processos e estratégia.
             </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
             {[
-              { icon: Target,   word: 'Estratégia',    desc: 'Visão de longo prazo integrada à operação diária' },
-              { icon: Brain,    word: 'Inteligência',  desc: 'Dados e IA aplicados à tomada de decisão jurídica' },
-              { icon: Layers,   word: 'Integração',    desc: 'Módulos conectados em um único ecossistema' },
-              { icon: Shield,   word: 'Governança',    desc: 'Controle institucional com conformidade e segurança' },
-              { icon: Zap,      word: 'Performance',   desc: 'Eficiência operacional com indicadores em tempo real' },
-              { icon: TrendingUp, word: 'Escalabilidade', desc: 'Estrutura preparada para crescer com o escritório' },
-            ].map((item, i) => (
+              { icon: Target,     word: 'Estratégia',      desc: 'Visão de longo prazo integrada à operação diária' },
+              { icon: Brain,      word: 'Inteligência',    desc: 'Dados e IA aplicados à tomada de decisão jurídica' },
+              { icon: Layers,     word: 'Integração',      desc: 'Módulos conectados em um único ecossistema' },
+              { icon: Shield,     word: 'Governança',      desc: 'Controle institucional com conformidade e segurança' },
+              { icon: Zap,        word: 'Performance',     desc: 'Eficiência operacional com indicadores em tempo real' },
+              { icon: TrendingUp, word: 'Escalabilidade',  desc: 'Estrutura preparada para crescer com o escritório' },
+            ].map((item) => (
               <div key={item.word}
-                className="glass-card p-6 flex flex-col gap-3 transition-all duration-300 cursor-default group"
-                style={{ animationDelay: `${i * 100}ms` }}>
+                className="glass-card p-6 flex flex-col gap-3 transition-all duration-300 cursor-default hover:scale-[1.02]">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center"
                   style={{ background: 'rgba(222,192,120,0.12)', border: '1px solid rgba(222,192,120,0.25)' }}>
                   <item.icon size={18} style={{ color: '#DEC078' }} />
                 </div>
                 <div className="font-serif font-bold text-xl text-white">{item.word}</div>
-                <div className="text-xs font-sans leading-5" style={{ color: 'rgba(255,255,255,0.60)' }}>{item.desc}</div>
+                <div className="text-xs font-sans leading-5" style={{ color: 'rgba(255,255,255,0.58)' }}>{item.desc}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══ FOOTER / ASSINATURA ═════════════════════════════════════════════ */}
-      <section className="py-20 px-6 md:px-12 text-center relative overflow-hidden" style={{ background: '#0f2340' }}>
+      {/* ══════════════════════════════════════════════════════════════════════
+          FOOTER / ASSINATURA
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 px-6 md:px-12 text-center relative overflow-hidden"
+        style={{ background: '#0f2340' }}>
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(222,192,120,0.35), transparent)' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full opacity-5"
+          <div className="absolute top-0 left-0 right-0 h-px"
+            style={{ background: 'linear-gradient(90deg, transparent, rgba(222,192,120,0.35), transparent)' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full opacity-[0.04]"
             style={{ background: 'radial-gradient(circle, #DEC078 0%, transparent 70%)' }} />
         </div>
+
         <div ref={footer.ref}
           className={`relative max-w-3xl mx-auto transition-all duration-1000 ${footer.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-          {/* logos */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-10">
-            <LogoMM />
-            <div className="hidden sm:block w-px h-10" style={{ background: 'rgba(222,192,120,0.35)' }} />
-            <LogoBen />
+          {/* Logos */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-10">
+            <img src="/logos/logo-mauro-moncao.png" alt="Mauro Monção Advogados Associados"
+              className="h-14 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+            <div className="hidden sm:block w-px h-12" style={{ background: 'rgba(222,192,120,0.35)' }} />
+            <img src="/logos/logo-ben-hub.png" alt="BEN Strategic Intelligence Hub"
+              className="h-14 w-auto" style={{ imageRendering: 'crisp-edges' }} />
           </div>
 
           <h3 className="font-serif font-bold text-3xl text-white mb-3" style={{ letterSpacing: '-0.02em' }}>
@@ -442,27 +829,35 @@ export default function LandingPage() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <a href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
-              target="_blank" rel="noopener noreferrer" className="btn-gold">
+              target="_blank" rel="noopener noreferrer"
+              className="btn-gold">
               <TrendingUp size={15} />Ben Growth Center
             </a>
-            <button onClick={() => window.location.href = '/login'} className="btn-outline">
+            <button onClick={() => navigate('/login')} className="btn-outline">
               <Scale size={15} />Ben Juris Center
             </button>
+            <a href="https://www.mauromoncao.adv.br" target="_blank" rel="noopener noreferrer"
+              className="btn-outline" style={{ borderColor: 'rgba(255,255,255,0.20)', color: 'rgba(255,255,255,0.65)' }}>
+              <ExternalLink size={14} />Site Principal
+            </a>
           </div>
 
           <div className="w-full h-px mb-8" style={{ background: 'rgba(222,192,120,0.12)' }} />
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans"
-            style={{ color: 'rgba(255,255,255,0.40)' }}>
+            style={{ color: 'rgba(255,255,255,0.38)' }}>
             <span>© 2026 Mauro Monção Advogados Associados. Todos os direitos reservados.</span>
             <a href="https://www.mauromoncao.adv.br" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-1 hover:text-gold transition-colors"
-              style={{ color: 'rgba(255,255,255,0.40)' }}>
+              className="flex items-center gap-1 hover:text-[#DEC078] transition-colors"
+              style={{ color: 'rgba(255,255,255,0.38)' }}>
               www.mauromoncao.adv.br <ExternalLink size={10} />
             </a>
           </div>
         </div>
       </section>
+
+      {/* Floating buttons */}
+      <FloatingButtons />
     </div>
   )
 }
