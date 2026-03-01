@@ -224,15 +224,17 @@ function EcosystemIllustration() {
       <circle cx="412" cy="170" r="44" fill="url(#jurisGlow)"/>
       <circle cx="412" cy="170" r="40" fill="#0a1e38" stroke="rgba(59,130,246,0.60)" strokeWidth="1.8"/>
 
-      {/* Juris icon — shield + scale */}
-      <g transform="translate(392,150)">
-        {/* Shield */}
-        <path d="M20 2 L36 7 L36 19 Q36 28 20 33 Q4 28 4 19 L4 7 Z" stroke="#3b82f6" strokeWidth="1.5" fill="rgba(59,130,246,0.12)"/>
-        {/* Scale/balance */}
-        <line x1="20" y1="10" x2="20" y2="28" stroke="#3b82f6" strokeWidth="1.2"/>
-        <line x1="12" y1="14" x2="28" y2="14" stroke="#3b82f6" strokeWidth="1.2"/>
-        <circle cx="12" cy="18" r="2.5" stroke="#3b82f6" strokeWidth="1" fill="rgba(59,130,246,0.2)"/>
-        <circle cx="28" cy="18" r="2.5" stroke="#3b82f6" strokeWidth="1" fill="rgba(59,130,246,0.2)"/>
+      {/* Juris icon — shield + document governance (NO balance/scale) */}
+      <g transform="translate(394,150)">
+        {/* Outer shield */}
+        <path d="M18 2 L32 7 L32 18 Q32 27 18 32 Q4 27 4 18 L4 7 Z" stroke="#3b82f6" strokeWidth="1.5" fill="rgba(59,130,246,0.12)"/>
+        {/* Document lines inside shield */}
+        <line x1="10" y1="13" x2="26" y2="13" stroke="#3b82f6" strokeWidth="1.2" strokeLinecap="round"/>
+        <line x1="10" y1="17" x2="26" y2="17" stroke="#3b82f6" strokeWidth="1.2" strokeLinecap="round"/>
+        <line x1="10" y1="21" x2="20" y2="21" stroke="#3b82f6" strokeWidth="1.2" strokeLinecap="round"/>
+        {/* Shield checkmark */}
+        <circle cx="18" cy="17" r="6" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.35)" strokeWidth="0.8"/>
+        <path d="M14.5 17 L17 19.5 L21.5 14.5" stroke="#3b82f6" strokeWidth="1.3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
       </g>
 
       <text x="412" y="204" textAnchor="middle" fill="#3b82f6" fontFamily="Outfit,sans-serif" fontSize="6.5" fontWeight="700" letterSpacing="1">BEN JURIS</text>
@@ -314,8 +316,8 @@ export default function LandingPage() {
           {/* Logo MM — transparente, ampliada, padrão mauro-site */}
           <a href="https://www.mauromoncao.adv.br" target="_blank" rel="noopener noreferrer"
             className="flex items-center shrink-0">
-            <img src="/logos/logo-mm-transparent.png" alt="Mauro Monção Advogados Associados"
-              className="h-[72px] w-auto" style={{ imageRendering: 'crisp-edges' }} />
+            <img src="/logos/logo-mm-crop.png" alt="Mauro Monção Advogados Associados"
+              style={{ height: '64px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
           </a>
 
           {/* Desktop nav */}
@@ -454,10 +456,10 @@ export default function LandingPage() {
                 Mauro Monção Advogados Associados
               </div>
 
-              {/* Logo BEN Hub — sem fundo, ampliada */}
+              {/* Logo BEN Hub — sem fundo, ampliada (cropped, tamanho real) */}
               <div className="mb-6">
-                <img src="/logos/logo-ben-hub-nobg.png" alt="BEN Strategic Intelligence Hub"
-                  className="h-20 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+                <img src="/logos/logo-ben-hub-crop.png" alt="BEN Strategic Intelligence Hub"
+                  className="w-auto" style={{ height: '90px', imageRendering: 'crisp-edges', objectFit: 'contain' }} />
               </div>
 
               {/* Title */}
@@ -480,22 +482,28 @@ export default function LandingPage() {
                 contemporânea com organização, eficiência e visão de futuro.
               </p>
 
-              {/* CTA buttons */}
-              <div className="flex flex-col sm:flex-row items-start gap-4 mb-10">
+              {/* CTA buttons — three access points */}
+              <div className="flex flex-col sm:flex-row flex-wrap items-start gap-3 mb-10">
                 <a href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
                   target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105 hover:shadow-xl"
+                  className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105 hover:shadow-xl"
                   style={{ background: 'linear-gradient(135deg,#D4A017,#F0C040)', color: '#0f2340', boxShadow: '0 4px 20px rgba(212,160,23,0.45)' }}>
-                  <TrendingUp size={16} />
-                  Acessar Ben Growth Center
+                  <TrendingUp size={15} />
+                  Ben Growth Center
                   <ExternalLink size={12} className="opacity-70" />
                 </a>
                 <button onClick={() => navigate('/login')}
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105"
-                  style={{ background: 'rgba(255,255,255,0.08)', color: '#fff', border: '2px solid rgba(255,255,255,0.35)' }}>
-                  <Scale size={16} />
-                  Acessar Ben Juris Center
+                  className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105"
+                  style={{ background: 'rgba(59,130,246,0.12)', color: '#93c5fd', border: '2px solid rgba(59,130,246,0.45)' }}>
+                  <Shield size={15} />
+                  Ben Juris Center
                   <Lock size={12} className="opacity-70" />
+                </button>
+                <button onClick={() => navigate('/login')}
+                  className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105"
+                  style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', border: '2px solid rgba(255,255,255,0.30)' }}>
+                  <Users size={15} />
+                  Acesso do Cliente
                 </button>
               </div>
 
@@ -520,15 +528,15 @@ export default function LandingPage() {
 
           {/* Module cards — mobile */}
           <div className="lg:hidden grid grid-cols-2 gap-4 mt-8">
-            <div className="flex items-center justify-center px-4 py-3 rounded-2xl"
+            <div className="flex items-center justify-center px-4 py-4 rounded-2xl"
               style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(222,192,120,0.22)' }}>
-              <img src="/logos/logo-ben-growth-nobg.png" alt="Ben Growth Center"
-                className="h-12 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+              <img src="/logos/logo-ben-growth-crop.png" alt="Ben Growth Center"
+                className="w-full" style={{ height: '56px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
             </div>
-            <div className="flex items-center justify-center px-4 py-3 rounded-2xl"
+            <div className="flex items-center justify-center px-4 py-4 rounded-2xl"
               style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(222,192,120,0.22)' }}>
-              <img src="/logos/logo-ben-juris-nobg.png" alt="Ben Juris Center"
-                className="h-12 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+              <img src="/logos/logo-ben-juris-crop.png" alt="Ben Juris Center"
+                className="w-full" style={{ height: '56px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
             </div>
           </div>
         </div>
@@ -553,12 +561,13 @@ export default function LandingPage() {
                 Advocacia contemporânea com estrutura, inteligência e governança.
               </p>
 
-              {/* Brand logos — sem fundo, ampliadas */}
-              <div className="flex flex-col gap-5">
-                <img src="/logos/logo-mm-transparent.png" alt="Mauro Monção Advogados Associados"
-                  className="h-16 w-auto" style={{ imageRendering: 'crisp-edges' }} />
-                <img src="/logos/logo-ben-hub-nobg.png" alt="BEN Strategic Intelligence Hub"
-                  className="h-16 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+              {/* Brand logos — sem fundo, proporcional, lado a lado */}
+              <div className="flex flex-row items-center gap-6 flex-wrap">
+                <img src="/logos/logo-mm-crop.png" alt="Mauro Monção Advogados Associados"
+                  style={{ height: '52px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
+                <div className="w-px h-10 hidden sm:block" style={{ background: 'rgba(222,192,120,0.30)' }} />
+                <img src="/logos/logo-ben-hub-crop.png" alt="BEN Strategic Intelligence Hub"
+                  style={{ height: '52px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
               </div>
 
               {[
@@ -639,10 +648,10 @@ export default function LandingPage() {
             {/* Growth Center */}
             <div className="glass-card p-8 flex flex-col transition-all duration-300 group hover:scale-[1.01]"
               style={{ borderColor: 'rgba(0,179,126,0.30)' }}>
-              {/* Logo Growth — sem fundo, ampliada */}
-              <div className="mb-4">
-                <img src="/logos/logo-ben-growth-nobg.png" alt="Ben Growth Center"
-                  className="h-20 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+              {/* Logo Growth — cropada, tamanho generoso */}
+              <div className="mb-5 p-3 rounded-xl" style={{ background: 'rgba(0,0,0,0.20)' }}>
+                <img src="/logos/logo-ben-growth-crop.png" alt="Ben Growth Center"
+                  className="w-full" style={{ height: '80px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
               </div>
               <div className="flex items-center gap-2 mb-2">
                 <div className="text-xs font-semibold font-sans uppercase tracking-widest"
@@ -684,11 +693,17 @@ export default function LandingPage() {
             {/* Juris Center */}
             <div className="glass-card p-8 flex flex-col transition-all duration-300 group hover:scale-[1.01]"
               style={{ borderColor: 'rgba(59,130,246,0.30)' }}>
-              {/* Logo Juris — sem fundo, ampliada */}
-              <div className="mb-4">
-                <img src="/logos/logo-ben-juris-nobg.png" alt="Ben Juris Center"
-                  className="h-20 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+              {/* Logo Juris — cropada, tamanho generoso */}
+              <div className="mb-5 p-3 rounded-xl" style={{ background: 'rgba(0,0,0,0.20)' }}>
+                <img src="/logos/logo-ben-juris-crop.png" alt="Ben Juris Center"
+                  className="w-full" style={{ height: '80px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
               </div>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="text-xs font-semibold font-sans uppercase tracking-widest"
+                  style={{ color: 'rgba(59,130,246,0.80)' }}>Módulo 02</div>
+                <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#3b82f6' }} />
+              </div>
+              <h3 className="font-serif font-bold text-2xl text-white mb-4">Ben Juris Center</h3>
 
               <p className="text-sm leading-7 font-sans mb-6" style={{ color: 'rgba(255,255,255,0.72)' }}>
                 Centro de gestão jurídica corporativa e pública, voltado ao controle operacional,
@@ -786,13 +801,13 @@ export default function LandingPage() {
         <div ref={footer.ref}
           className={`relative max-w-3xl mx-auto transition-all duration-1000 ${footer.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-          {/* Logos footer — sem fundo, ampliadas */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-10 mb-10">
-            <img src="/logos/logo-mm-transparent.png" alt="Mauro Monção Advogados Associados"
-              className="h-20 w-auto" style={{ imageRendering: 'crisp-edges' }} />
-            <div className="hidden sm:block w-px h-14" style={{ background: 'rgba(222,192,120,0.35)' }} />
-            <img src="/logos/logo-ben-hub-nobg.png" alt="BEN Strategic Intelligence Hub"
-              className="h-20 w-auto" style={{ imageRendering: 'crisp-edges' }} />
+          {/* Logos footer — cropadas, proporcionais */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-10">
+            <img src="/logos/logo-mm-crop.png" alt="Mauro Monção Advogados Associados"
+              style={{ height: '64px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
+            <div className="hidden sm:block w-px h-12" style={{ background: 'rgba(222,192,120,0.35)' }} />
+            <img src="/logos/logo-ben-hub-crop.png" alt="BEN Strategic Intelligence Hub"
+              style={{ height: '56px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
           </div>
 
           <h3 className="font-serif font-bold text-3xl text-white mb-3" style={{ letterSpacing: '-0.02em' }}>
@@ -802,17 +817,22 @@ export default function LandingPage() {
             aplicadas à advocacia contemporânea.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 mb-12">
             <a href="https://ben-growth-center-rhryjjvbs-mauro-moncaos-projects.vercel.app/"
               target="_blank" rel="noopener noreferrer"
               className="btn-gold">
               <TrendingUp size={15} />Ben Growth Center
             </a>
             <button onClick={() => navigate('/login')} className="btn-outline">
-              <Scale size={15} />Ben Juris Center
+              <Shield size={15} />Ben Juris Center
+            </button>
+            <button onClick={() => navigate('/login')}
+              className="btn-outline"
+              style={{ borderColor: 'rgba(255,255,255,0.25)', color: 'rgba(255,255,255,0.75)' }}>
+              <Users size={14} />Acesso do Cliente
             </button>
             <a href="https://www.mauromoncao.adv.br" target="_blank" rel="noopener noreferrer"
-              className="btn-outline" style={{ borderColor: 'rgba(255,255,255,0.20)', color: 'rgba(255,255,255,0.65)' }}>
+              className="btn-outline" style={{ borderColor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.50)' }}>
               <ExternalLink size={14} />Site Principal
             </a>
           </div>
