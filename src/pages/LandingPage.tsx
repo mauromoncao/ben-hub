@@ -6,73 +6,23 @@ import {
   ExternalLink, Menu, X, ChevronRight
 } from 'lucide-react'
 
-// ── BEN Strategic Intelligence Hub — Inline SVG Logo ─────────────────────────
-// Fully scalable, never cropped, uses exact brand colors
+// ── BEN Hub Logo — real PNG, cropped, transparent background ─────────────────
 function BenHubLogo({ height = 80 }: { height?: number }) {
-  // Icon width proportional: icon is ~square, text roughly 2.2x icon
-  const iconSize = height
-  const textH = height * 0.38
-  const gap = height * 0.18
-  const totalW = iconSize + gap + iconSize * 2.55
-  const totalH = height
-
+  // Real logo aspect ratio: 710×250 = 2.84:1
+  const width = Math.round(height * 2.84)
   return (
-    <svg
-      viewBox={`0 0 ${totalW} ${totalH}`}
-      height={height}
-      width={totalW}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-label="BEN Strategic Intelligence Hub"
-      style={{ display: 'block', flexShrink: 0 }}
-    >
-      {/* ── Icon background circle ── */}
-      <circle cx={iconSize / 2} cy={totalH / 2} r={iconSize / 2 - 1} fill="#19385C" stroke="#DEC078" strokeWidth={iconSize * 0.03} />
-      {/* ── Brain circuit icon ── */}
-      <g transform={`translate(${iconSize * 0.18}, ${totalH / 2 - iconSize * 0.28}) scale(${iconSize / 120})`}>
-        {/* Brain outline */}
-        <path d="M77 17 C77 8 70 2 62 2 C57 2 52 5 50 10 C48 5 43 2 38 2 C30 2 23 8 23 17 C23 22 25 27 29 30 L29 52 C29 56 32 59 36 59 L64 59 C68 59 71 56 71 52 L71 30 C75 27 77 22 77 17 Z"
-          stroke="#DEC078" strokeWidth="3" fill="rgba(222,192,120,0.10)" />
-        {/* Vertical spine */}
-        <line x1="50" y1="18" x2="50" y2="59" stroke="#DEC078" strokeWidth="2.5" />
-        {/* Horizontal connectors */}
-        <line x1="36" y1="25" x2="24" y2="25" stroke="#DEC078" strokeWidth="2" />
-        <line x1="64" y1="25" x2="76" y2="25" stroke="#DEC078" strokeWidth="2" />
-        {/* Node dots */}
-        <circle cx="24" cy="25" r="4" fill="#DEC078" />
-        <circle cx="76" cy="25" r="4" fill="#DEC078" />
-        <circle cx="50" cy="59" r="4" fill="#DEC078" />
-        {/* Branch connectors */}
-        <line x1="38" y1="40" x2="28" y2="50" stroke="#DEC078" strokeWidth="1.8" />
-        <line x1="62" y1="40" x2="72" y2="50" stroke="#DEC078" strokeWidth="1.8" />
-        <circle cx="28" cy="50" r="3.5" fill="#DEC078" />
-        <circle cx="72" cy="50" r="3.5" fill="#DEC078" />
-      </g>
-
-      {/* ── Text: BEN ── */}
-      <text
-        x={iconSize + gap}
-        y={totalH * 0.50}
-        fontFamily="Cormorant Garamond, Georgia, serif"
-        fontWeight="700"
-        fontSize={height * 0.52}
-        fill="#FFFFFF"
-        dominantBaseline="middle"
-        letterSpacing="2"
-      >BEN</text>
-
-      {/* ── Text: STRATEGIC INTELLIGENCE HUB ── */}
-      <text
-        x={iconSize + gap}
-        y={totalH * 0.50 + height * 0.29}
-        fontFamily="Outfit, Arial, sans-serif"
-        fontWeight="600"
-        fontSize={textH}
-        fill="#DEC078"
-        dominantBaseline="middle"
-        letterSpacing="1.8"
-      >STRATEGIC INTELLIGENCE HUB</text>
-    </svg>
+    <img
+      src="/logos/logo-ben-hub-real-crop.png"
+      alt="BEN Strategic Intelligence Hub"
+      style={{
+        height: `${height}px`,
+        width: `${width}px`,
+        objectFit: 'contain',
+        imageRendering: 'crisp-edges',
+        display: 'block',
+        flexShrink: 0,
+      }}
+    />
   )
 }
 
@@ -635,9 +585,9 @@ export default function LandingPage() {
                 Mauro Monção Advogados Associados
               </div>
 
-              {/* Logo BEN Hub — SVG inline, nunca cortado */}
-              <div className="mb-6 overflow-visible">
-                <BenHubLogo height={76} />
+              {/* Logo BEN Hub — real PNG cropada, fundo transparente */}
+              <div className="mb-6" style={{ overflow: 'visible' }}>
+                <BenHubLogo height={72} />
               </div>
 
               {/* Title */}
