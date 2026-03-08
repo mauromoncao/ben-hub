@@ -1,6 +1,7 @@
 // ── Usuários do sistema ─────────────────────────────────────────────────────
-// Em produção, isso viria de um banco de dados/API.
-// Por ora, lista local gerenciada pelo administrador.
+// Credencial única de administrador: BenHub@Center2026
+// E-mails autorizados: mauromoncaoestudos@gmail.com | mauromoncaoadv.escritorio@gmail.com
+// Em produção, migrar para backend/banco de dados.
 
 export interface User {
   id: string
@@ -18,8 +19,8 @@ export const USERS: User[] = [
   {
     id: '1',
     name: 'Mauro Monção',
-    email: 'mauro@mauromoncao.adv.br',
-    password: 'admin2026',
+    email: 'mauromoncaoestudos@gmail.com',
+    password: 'BenHub@Center2026',
     role: 'admin',
     organization: 'Mauro Monção Advogados Associados',
     accessLevel: 'full',
@@ -28,24 +29,13 @@ export const USERS: User[] = [
   },
   {
     id: '2',
-    name: 'Prefeitura Municipal de Teresina',
-    email: 'prefeitura.teresina@cliente.hub',
-    password: 'teresina2026',
-    role: 'client',
-    organization: 'Prefeitura Municipal de Teresina',
-    accessLevel: 'readonly',
+    name: 'Mauro Monção',
+    email: 'mauromoncaoadv.escritorio@gmail.com',
+    password: 'BenHub@Center2026',
+    role: 'admin',
+    organization: 'Mauro Monção Advogados Associados',
+    accessLevel: 'full',
     active: true,
-    createdAt: '2026-02-01',
-  },
-  {
-    id: '3',
-    name: 'Câmara Municipal de Parnaíba',
-    email: 'camara.parnaiba@cliente.hub',
-    password: 'parnaiba2026',
-    role: 'client',
-    organization: 'Câmara Municipal de Parnaíba',
-    accessLevel: 'readonly',
-    active: true,
-    createdAt: '2026-02-15',
+    createdAt: '2026-01-01',
   },
 ]

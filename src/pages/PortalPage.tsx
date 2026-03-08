@@ -2,10 +2,67 @@ import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import {
   LogOut, ExternalLink, Shield, Scale, FileText,
-  Clock, Bell, BarChart3, Building2, CheckCircle, Lock
+  Clock, Bell, BarChart3, Building2, CheckCircle, Lock,
+  TrendingUp, Cpu, Zap, Brain, Users
 } from 'lucide-react'
 
-const JURIS_URL = 'https://ben-juris-center-1q2o8vhr7-mauro-moncaos-projects.vercel.app/'
+const MODULES = [
+  {
+    id: 'growth',
+    title: 'Ben Growth Center',
+    subtitle: 'Módulo 01 · Inteligência Comercial',
+    desc: 'Inteligência comercial, gestão de tráfego, CRM e performance',
+    url: 'https://bengrowth.mauromoncao.adv.br',
+    color: '#00b37e',
+    colorBg: 'rgba(0,179,126,0.12)',
+    colorBorder: 'rgba(0,179,126,0.30)',
+    icon: TrendingUp,
+    features: [
+      { icon: BarChart3, label: 'Dashboard',    desc: 'Visão comercial' },
+      { icon: Users,     label: 'CRM',          desc: 'Gestão de leads' },
+      { icon: Zap,       label: 'Tráfego',      desc: 'Performance digital' },
+      { icon: TrendingUp,label: 'Crescimento',  desc: 'Métricas de resultado' },
+    ],
+  },
+  {
+    id: 'juris',
+    title: 'Ben Juris Center',
+    subtitle: 'Módulo 02 · Gestão Jurídica',
+    desc: 'Gestão jurídica corporativa e pública, controle operacional e prazos',
+    url: 'https://juris.mauromoncao.adv.br',
+    color: '#3b82f6',
+    colorBg: 'rgba(59,130,246,0.12)',
+    colorBorder: 'rgba(59,130,246,0.30)',
+    icon: Scale,
+    features: [
+      { icon: BarChart3,   label: 'Dashboard',   desc: 'Visão executiva' },
+      { icon: Scale,       label: 'Processos',   desc: 'Gestão processual' },
+      { icon: Clock,       label: 'Prazos',      desc: 'Controle de prazos' },
+      { icon: FileText,    label: 'Documentos',  desc: 'Gestão documental' },
+      { icon: Building2,   label: 'Setor Público',desc: 'Gov. corporativa' },
+      { icon: Bell,        label: 'Alertas',     desc: 'Notificações' },
+      { icon: Shield,      label: 'Conformidade',desc: 'Controle e auditoria' },
+      { icon: BarChart3,   label: 'Relatórios',  desc: 'Análise de dados' },
+    ],
+  },
+  {
+    id: 'ecosystem',
+    title: 'BEN Ecosystem IA',
+    subtitle: 'Módulo 03 · Workspace Inteligente',
+    desc: 'Agentes de IA, projetos jurídicos, chat contextualizado e pipelines de automação',
+    url: 'https://ecosystem.mauromoncao.adv.br',
+    color: '#7c3aed',
+    colorBg: 'rgba(124,58,237,0.12)',
+    colorBorder: 'rgba(124,58,237,0.30)',
+    icon: Cpu,
+    features: [
+      { icon: Brain,  label: 'Agentes IA',    desc: 'Automação inteligente' },
+      { icon: Cpu,    label: 'Workspace',     desc: 'Ambiente integrado' },
+      { icon: Zap,    label: 'Pipelines',     desc: 'Fluxos automáticos' },
+      { icon: FileText,label: 'Projetos',     desc: 'Gestão de projetos IA' },
+    ],
+  },
+]
 
 export default function PortalPage() {
   const { user, logout } = useAuth()
@@ -27,8 +84,8 @@ export default function PortalPage() {
             <Shield size={15} style={{ color: '#DEC078' }} />
           </div>
           <div>
-            <div className="text-xs font-bold text-white font-sans">Ben Juris Center</div>
-            <div className="text-xs font-sans" style={{ color: 'rgba(222,192,120,0.70)' }}>Área Restrita</div>
+            <div className="text-xs font-bold text-white font-sans">BEN Strategic Hub</div>
+            <div className="text-xs font-sans" style={{ color: 'rgba(222,192,120,0.70)' }}>Portal do Cliente</div>
           </div>
         </div>
 
@@ -81,50 +138,54 @@ export default function PortalPage() {
           </div>
         </div>
 
-        {/* ── acesso principal ao sistema ─────────────────────────── */}
-        <div className="glass-card p-8 mb-6"
-          style={{ borderColor: 'rgba(222,192,120,0.30)' }}>
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
-                style={{ background: 'linear-gradient(135deg, rgba(222,192,120,0.25), rgba(222,192,120,0.10))', border: '1px solid rgba(222,192,120,0.35)' }}>
-                <Scale size={26} style={{ color: '#DEC078' }} />
-              </div>
-              <div>
-                <h2 className="font-serif font-bold text-2xl text-white">Ben Juris Center</h2>
-                <p className="text-sm font-sans mt-0.5" style={{ color: 'rgba(255,255,255,0.60)' }}>
-                  Plataforma de gestão jurídica corporativa e pública
-                </p>
-              </div>
-            </div>
-            <a href={JURIS_URL} target="_blank" rel="noopener noreferrer"
-              className="btn-gold flex-shrink-0">
-              Acessar o Sistema <ExternalLink size={14} />
-            </a>
-          </div>
+        {/* ── módulos ─────────────────────────────────────────────── */}
+        <div className="flex flex-col gap-6 mb-8">
+          {MODULES.map(mod => {
+            const Icon = mod.icon
+            return (
+              <div key={mod.id} className="glass-card p-8"
+                style={{ borderColor: mod.colorBorder }}>
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
+                      style={{ background: mod.colorBg, border: `1px solid ${mod.colorBorder}` }}>
+                      <Icon size={26} style={{ color: mod.color }} />
+                    </div>
+                    <div>
+                      <h2 className="font-serif font-bold text-2xl text-white">{mod.title}</h2>
+                      <p className="text-xs font-sans mt-0.5" style={{ color: mod.color }}>{mod.subtitle}</p>
+                      <p className="text-sm font-sans mt-1" style={{ color: 'rgba(255,255,255,0.60)' }}>{mod.desc}</p>
+                    </div>
+                  </div>
+                  <a href={mod.url} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold font-sans flex-shrink-0 transition-all"
+                    style={{
+                      background: mod.colorBg,
+                      border: `1.5px solid ${mod.colorBorder}`,
+                      color: mod.color,
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.8' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}>
+                    Acessar o Sistema <ExternalLink size={14} />
+                  </a>
+                </div>
 
-          {/* features */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-            {[
-              { icon: BarChart3, label: 'Dashboard',        desc: 'Visão executiva' },
-              { icon: Scale,     label: 'Processos',        desc: 'Gestão processual' },
-              { icon: Clock,     label: 'Prazos',           desc: 'Controle de prazos' },
-              { icon: FileText,  label: 'Documentos',       desc: 'Gestão documental' },
-              { icon: Building2, label: 'Setor Público',    desc: 'Gov. corporativa' },
-              { icon: Bell,      label: 'Alertas',          desc: 'Notificações' },
-              { icon: Shield,    label: 'Conformidade',     desc: 'Controle e auditoria' },
-              { icon: BarChart3, label: 'Relatórios',       desc: 'Análise de dados' },
-            ].map(f => (
-              <div key={f.label} className="flex items-center gap-3 px-3 py-3 rounded-xl transition-all"
-                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                <f.icon size={15} style={{ color: '#DEC078', flexShrink: 0 }} />
-                <div>
-                  <div className="text-xs font-bold text-white font-sans">{f.label}</div>
-                  <div className="text-xs font-sans" style={{ color: 'rgba(255,255,255,0.45)' }}>{f.desc}</div>
+                {/* features */}
+                <div className={`grid grid-cols-2 md:grid-cols-${mod.features.length > 4 ? '4' : mod.features.length} gap-4 mt-8`}>
+                  {mod.features.map(f => (
+                    <div key={f.label} className="flex items-center gap-3 px-3 py-3 rounded-xl transition-all"
+                      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                      <f.icon size={15} style={{ color: mod.color, flexShrink: 0 }} />
+                      <div>
+                        <div className="text-xs font-bold text-white font-sans">{f.label}</div>
+                        <div className="text-xs font-sans" style={{ color: 'rgba(255,255,255,0.45)' }}>{f.desc}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
+            )
+          })}
         </div>
 
         {/* ── informações da sessão ───────────────────────────────── */}
@@ -167,7 +228,7 @@ export default function PortalPage() {
                 <div>
                   <div className="text-xs font-bold font-sans" style={{ color: '#DEC078' }}>Acesso Restrito</div>
                   <div className="text-xs font-sans mt-0.5" style={{ color: 'rgba(255,255,255,0.50)' }}>
-                    Este portal é exclusivo para clientes autorizados pelo administrador.
+                    Portal exclusivo — credenciais emitidas pelo administrador.
                   </div>
                 </div>
               </div>

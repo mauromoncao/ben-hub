@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { Lock, Mail, Eye, EyeOff, ArrowLeft, Shield, TrendingUp, Users, ChevronRight } from 'lucide-react'
+import { Lock, Mail, Eye, EyeOff, ArrowLeft, Shield, TrendingUp, Users, ChevronRight, Cpu } from 'lucide-react'
 
-// The 3 access panels
+// The 4 access panels
 const ACCESS_PANELS = [
   {
     id: 'growth',
@@ -16,7 +16,7 @@ const ACCESS_PANELS = [
     colorBorder: 'rgba(0,179,126,0.40)',
     loginTitle: 'Ben Growth Center',
     loginSub: 'Módulo 01 · Inteligência Comercial',
-    external: 'https://ben-growth-center.vercel.app/',
+    external: 'https://bengrowth.mauromoncao.adv.br/login',
   },
   {
     id: 'juris',
@@ -29,7 +29,20 @@ const ACCESS_PANELS = [
     colorBorder: 'rgba(59,130,246,0.40)',
     loginTitle: 'Ben Juris Center',
     loginSub: 'Módulo 02 · Gestão Jurídica',
-    external: null,
+    external: 'https://juris.mauromoncao.adv.br/login',
+  },
+  {
+    id: 'ecosystem',
+    label: 'BEN Ecosystem IA',
+    module: 'Módulo 03',
+    desc: 'Workspace inteligente, agentes de IA e automação',
+    icon: Cpu,
+    color: '#7c3aed',
+    colorBg: 'rgba(124,58,237,0.12)',
+    colorBorder: 'rgba(124,58,237,0.40)',
+    loginTitle: 'BEN Ecosystem IA',
+    loginSub: 'Módulo 03 · Workspace Inteligente',
+    external: 'https://ecosystem.mauromoncao.adv.br/login',
   },
   {
     id: 'cliente',
@@ -51,17 +64,17 @@ export default function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  // Read ?panel= param to pre-select a panel (juris | cliente)
+  // Read ?panel= param to pre-select a panel (cliente only — others redirect externally)
   const urlPanel = new URLSearchParams(location.search).get('panel')
 
   // Step 1: panel selection | Step 2: login form
   const [selected, setSelected] = useState<string | null>(
-    urlPanel === 'juris' || urlPanel === 'cliente' ? urlPanel : null
+    urlPanel === 'cliente' ? urlPanel : null
   )
 
   // If param changes (e.g. user navigates back/forward), sync
   useEffect(() => {
-    if (urlPanel === 'juris' || urlPanel === 'cliente') {
+    if (urlPanel === 'cliente') {
       setSelected(urlPanel)
     } else {
       setSelected(null)
