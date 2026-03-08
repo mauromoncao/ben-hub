@@ -177,6 +177,10 @@ function EcosystemIllustration() {
           <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.20"/>
           <stop offset="100%" stopColor="#3b82f6" stopOpacity="0"/>
         </radialGradient>
+        <radialGradient id="ecosystemGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.22"/>
+          <stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/>
+        </radialGradient>
         <filter id="glow">
           <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
           <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
@@ -190,6 +194,8 @@ function EcosystemIllustration() {
       {/* Radial connection lines — center to modules */}
       <line x1="260" y1="170" x2="108" y2="170" stroke="rgba(222,192,120,0.30)" strokeWidth="1.5" strokeDasharray="5 3"/>
       <line x1="260" y1="170" x2="412" y2="170" stroke="rgba(222,192,120,0.30)" strokeWidth="1.5" strokeDasharray="5 3"/>
+      {/* Connection to Ecosystem IA — top center */}
+      <line x1="260" y1="170" x2="260" y2="38" stroke="rgba(124,58,237,0.45)" strokeWidth="1.5" strokeDasharray="5 3"/>
       <line x1="260" y1="170" x2="200" y2="52"  stroke="rgba(222,192,120,0.18)" strokeWidth="1" strokeDasharray="4 4"/>
       <line x1="260" y1="170" x2="320" y2="52"  stroke="rgba(222,192,120,0.18)" strokeWidth="1" strokeDasharray="4 4"/>
       <line x1="260" y1="170" x2="200" y2="290" stroke="rgba(222,192,120,0.18)" strokeWidth="1" strokeDasharray="4 4"/>
@@ -259,6 +265,36 @@ function EcosystemIllustration() {
 
       <text x="412" y="204" textAnchor="middle" fill="#3b82f6" fontFamily="Outfit,sans-serif" fontSize="6.5" fontWeight="700" letterSpacing="1">BEN JURIS</text>
       <text x="412" y="213" textAnchor="middle" fill="rgba(59,130,246,0.65)" fontFamily="Outfit,sans-serif" fontSize="5.5" letterSpacing="1">CENTER</text>
+
+      {/* ── TOP CENTER — BEN Ecosystem IA ── */}
+      <circle cx="260" cy="38" r="44" fill="url(#ecosystemGlow)"/>
+      <circle cx="260" cy="38" r="40" fill="#130a2a" stroke="rgba(124,58,237,0.65)" strokeWidth="1.8"/>
+      <circle cx="260" cy="38" r="34" fill="none" stroke="rgba(124,58,237,0.20)" strokeWidth="1"/>
+
+      {/* Ecosystem icon — AI nodes */}
+      <g transform="translate(242,20)">
+        {/* Central node */}
+        <circle cx="18" cy="12" r="4" fill="rgba(124,58,237,0.25)" stroke="#7c3aed" strokeWidth="1.3"/>
+        {/* Satellite nodes */}
+        <circle cx="6" cy="6"  r="2.5" fill="rgba(124,58,237,0.20)" stroke="#a78bfa" strokeWidth="1"/>
+        <circle cx="30" cy="6"  r="2.5" fill="rgba(124,58,237,0.20)" stroke="#a78bfa" strokeWidth="1"/>
+        <circle cx="6" cy="20" r="2.5" fill="rgba(124,58,237,0.20)" stroke="#a78bfa" strokeWidth="1"/>
+        <circle cx="30" cy="20" r="2.5" fill="rgba(124,58,237,0.20)" stroke="#a78bfa" strokeWidth="1"/>
+        {/* Connection lines */}
+        <line x1="18" y1="12" x2="6"  y2="6"  stroke="#7c3aed" strokeWidth="0.9" opacity="0.7"/>
+        <line x1="18" y1="12" x2="30" y2="6"  stroke="#7c3aed" strokeWidth="0.9" opacity="0.7"/>
+        <line x1="18" y1="12" x2="6"  y2="20" stroke="#7c3aed" strokeWidth="0.9" opacity="0.7"/>
+        <line x1="18" y1="12" x2="30" y2="20" stroke="#7c3aed" strokeWidth="0.9" opacity="0.7"/>
+      </g>
+
+      <text x="260" y="68" textAnchor="middle" fill="#a78bfa" fontFamily="Outfit,sans-serif" fontSize="6.5" fontWeight="700" letterSpacing="1">BEN ECOSYSTEM</text>
+      <text x="260" y="77" textAnchor="middle" fill="rgba(167,139,250,0.65)" fontFamily="Outfit,sans-serif" fontSize="5.5" letterSpacing="1">IA · WORKSPACE</text>
+
+      {/* Animated pulse dot — center → Ecosystem */}
+      <circle cx="260" cy="150" r="2.5" fill="#7c3aed" opacity="0.8">
+        <animate attributeName="cy" values="150;100;38" dur="2.5s" repeatCount="indefinite" begin="0.5s"/>
+        <animate attributeName="opacity" values="0.9;0.5;0" dur="2.5s" repeatCount="indefinite" begin="0.5s"/>
+      </circle>
 
       {/* ── Satellite nodes ── */}
       {/* Top-left: Inteligência */}
@@ -612,7 +648,7 @@ export default function LandingPage() {
 
               {/* CTA buttons — three access points */}
               <div className="flex flex-col sm:flex-row flex-wrap items-start gap-3 mb-10">
-                <a href="https://ben-growth-center.vercel.app/"
+                <a href="https://bengrowth.mauromoncao.adv.br/login"
                   target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105 hover:shadow-xl"
                   style={{ background: 'linear-gradient(135deg,#D4A017,#F0C040)', color: '#0f2340', boxShadow: '0 4px 20px rgba(212,160,23,0.45)' }}>
@@ -620,13 +656,22 @@ export default function LandingPage() {
                   Ben Growth Center
                   <ExternalLink size={12} className="opacity-70" />
                 </a>
-                <button onClick={() => navigate('/login?panel=juris')}
+                <a href="https://juris.mauromoncao.adv.br/login"
+                  target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105"
                   style={{ background: 'rgba(59,130,246,0.12)', color: '#93c5fd', border: '2px solid rgba(59,130,246,0.45)' }}>
                   <Shield size={15} />
                   Ben Juris Center
                   <Lock size={12} className="opacity-70" />
-                </button>
+                </a>
+                <a href="https://ecosystem.mauromoncao.adv.br/login"
+                  target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105"
+                  style={{ background: 'rgba(124,58,237,0.15)', color: '#c4b5fd', border: '2px solid rgba(124,58,237,0.50)' }}>
+                  <Zap size={15} />
+                  BEN Ecosystem IA
+                  <Lock size={12} className="opacity-70" />
+                </a>
                 <button onClick={() => navigate('/login?panel=cliente')}
                   className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105"
                   style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', border: '2px solid rgba(255,255,255,0.30)' }}>
@@ -655,16 +700,21 @@ export default function LandingPage() {
           </div>
 
           {/* Module cards — mobile */}
-          <div className="lg:hidden grid grid-cols-2 gap-4 mt-8">
-            <div className="flex items-center justify-center px-4 py-4 rounded-2xl"
-              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(222,192,120,0.22)' }}>
+          <div className="lg:hidden grid grid-cols-3 gap-3 mt-8">
+            <div className="flex items-center justify-center px-3 py-4 rounded-2xl"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(0,179,126,0.30)' }}>
               <img src="/logos/logo-ben-growth-crop.png" alt="Ben Growth Center"
-                className="w-full" style={{ height: '56px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
+                className="w-full" style={{ height: '50px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
             </div>
-            <div className="flex items-center justify-center px-4 py-4 rounded-2xl"
-              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(222,192,120,0.22)' }}>
+            <div className="flex items-center justify-center px-3 py-4 rounded-2xl"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(59,130,246,0.30)' }}>
               <img src="/logos/logo-ben-juris-crop.png" alt="Ben Juris Center"
-                className="w-full" style={{ height: '56px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
+                className="w-full" style={{ height: '50px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
+            </div>
+            <div className="flex items-center justify-center px-3 py-4 rounded-2xl"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(124,58,237,0.35)' }}>
+              <img src="/logos/logo-ben-ecosystem-crop.png" alt="BEN Ecosystem IA"
+                className="w-full" style={{ height: '50px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
             </div>
           </div>
         </div>
@@ -867,9 +917,9 @@ export default function LandingPage() {
             {/* Ecosystem IA */}
             <div className="glass-card p-8 flex flex-col transition-all duration-300 group hover:scale-[1.01] md:col-span-2 xl:col-span-1"
               style={{ borderColor: 'rgba(109,40,217,0.30)' }}>
-              <div className="mb-5 p-3 rounded-xl" style={{ background: 'rgba(0,0,0,0.20)' }}>
+              <div className="mb-5 flex items-center justify-center py-2">
                 <img src="/logos/logo-ben-ecosystem-crop.png" alt="BEN Ecosystem IA"
-                  className="w-full" style={{ height: '80px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
+                  className="w-full" style={{ height: '130px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
               </div>
               <div className="flex items-center gap-2 mb-2">
                 <div className="text-xs font-semibold font-sans uppercase tracking-widest"
