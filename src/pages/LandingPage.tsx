@@ -412,7 +412,7 @@ export default function LandingPage() {
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0" />
             </a>
 
-            {/* Área Restrita — dropdown com 3 acessos */}
+            {/* Área Restrita — dropdown com 4 acessos */}
             <div className="relative">
               <button
                 onClick={() => setAccessDropdown(!accessDropdown)}
@@ -439,8 +439,9 @@ export default function LandingPage() {
 
                   {/* Growth Center */}
                   <a
-                    href="https://ben-growth-center.vercel.app/"
+                    href="https://bengrowth.mauromoncao.adv.br/login"
                     target="_blank" rel="noopener noreferrer"
+                    onClick={() => setAccessDropdown(false)}
                     className="flex items-center gap-3 px-4 py-3.5 transition-all group hover:bg-white/5"
                   >
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -457,20 +458,42 @@ export default function LandingPage() {
                   <div className="mx-4" style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
 
                   {/* Juris Center */}
-                  <button
-                    onClick={() => { setAccessDropdown(false); navigate('/login?panel=juris') }}
-                    className="w-full flex items-center gap-3 px-4 py-3.5 transition-all group hover:bg-white/5"
+                  <a
+                    href="https://juris.mauromoncao.adv.br/login"
+                    target="_blank" rel="noopener noreferrer"
+                    onClick={() => setAccessDropdown(false)}
+                    className="flex items-center gap-3 px-4 py-3.5 transition-all group hover:bg-white/5"
                   >
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                       style={{ background: 'rgba(59,130,246,0.15)', border: '1px solid rgba(59,130,246,0.40)' }}>
                       <Shield size={16} style={{ color: '#3b82f6' }} />
                     </div>
-                    <div className="flex-1 text-left">
+                    <div className="flex-1">
                       <div className="text-[13px] font-bold text-white group-hover:text-[#3b82f6] transition-colors">Ben Juris Center</div>
                       <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Módulo 02 · Gestão Jurídica</div>
                     </div>
                     <Lock size={12} style={{ color: 'rgba(255,255,255,0.30)' }} />
-                  </button>
+                  </a>
+
+                  <div className="mx-4" style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+
+                  {/* BEN Ecosystem IA */}
+                  <a
+                    href="https://ecosystem.mauromoncao.adv.br/login"
+                    target="_blank" rel="noopener noreferrer"
+                    onClick={() => setAccessDropdown(false)}
+                    className="flex items-center gap-3 px-4 py-3.5 transition-all group hover:bg-white/5"
+                  >
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.40)' }}>
+                      <Zap size={16} style={{ color: '#7c3aed' }} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-[13px] font-bold text-white group-hover:text-[#a78bfa] transition-colors">BEN Ecosystem IA</div>
+                      <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Módulo 03 · Workspace Inteligente</div>
+                    </div>
+                    <Lock size={12} style={{ color: 'rgba(255,255,255,0.30)' }} />
+                  </a>
 
                   <div className="mx-4" style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
 
@@ -550,7 +573,7 @@ export default function LandingPage() {
                 <div className="px-4 py-2 border-b" style={{ borderColor: 'rgba(222,192,120,0.12)' }}>
                   <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(222,192,120,0.55)' }}>Área de Acesso</p>
                 </div>
-                <a href="https://ben-growth-center.vercel.app/"
+                <a href="https://bengrowth.mauromoncao.adv.br/login"
                   target="_blank" rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center gap-3 px-4 py-3.5 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
@@ -559,17 +582,30 @@ export default function LandingPage() {
                     <div className="text-[14px] font-bold text-white">Ben Growth Center</div>
                     <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Módulo 01</div>
                   </div>
-                  <ExternalLink size={13} className="ml-auto" style={{ color: 'rgba(255,255,255,0.30)' }} />
+                  <Lock size={13} className="ml-auto" style={{ color: 'rgba(255,255,255,0.30)' }} />
                 </a>
-                <button onClick={() => { setMobileOpen(false); navigate('/login?panel=juris') }}
-                  className="w-full flex items-center gap-3 px-4 py-3.5 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+                <a href="https://juris.mauromoncao.adv.br/login"
+                  target="_blank" rel="noopener noreferrer"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3.5 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
                   <Shield size={16} style={{ color: '#3b82f6' }} />
                   <div className="text-left">
                     <div className="text-[14px] font-bold text-white">Ben Juris Center</div>
                     <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Módulo 02</div>
                   </div>
                   <Lock size={13} className="ml-auto" style={{ color: 'rgba(255,255,255,0.30)' }} />
-                </button>
+                </a>
+                <a href="https://ecosystem.mauromoncao.adv.br/login"
+                  target="_blank" rel="noopener noreferrer"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3.5 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+                  <Zap size={16} style={{ color: '#7c3aed' }} />
+                  <div className="text-left">
+                    <div className="text-[14px] font-bold text-white">BEN Ecosystem IA</div>
+                    <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Módulo 03</div>
+                  </div>
+                  <Lock size={13} className="ml-auto" style={{ color: 'rgba(255,255,255,0.30)' }} />
+                </a>
                 <button onClick={() => { setMobileOpen(false); navigate('/login?panel=cliente') }}
                   className="w-full flex items-center gap-3 px-4 py-3.5">
                   <Users size={16} style={{ color: '#DEC078' }} />
@@ -855,7 +891,7 @@ export default function LandingPage() {
 
               <div className="mt-auto">
                 <div className="w-full h-px mb-6" style={{ background: 'rgba(0,179,126,0.18)' }} />
-                <a href="https://ben-growth-center.vercel.app/"
+                <a href="https://bengrowth.mauromoncao.adv.br/login"
                   target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 w-full justify-center px-6 py-3.5 rounded-full font-bold text-sm font-sans transition-all duration-200 hover:scale-105"
                   style={{ background: '#00b37e', color: '#fff', boxShadow: '0 4px 18px rgba(0,179,126,0.35)' }}>
@@ -906,11 +942,12 @@ export default function LandingPage() {
 
               <div className="mt-auto">
                 <div className="w-full h-px mb-6" style={{ background: 'rgba(59,130,246,0.18)' }} />
-                <button onClick={() => navigate('/login?panel=juris')}
+                <a href="https://juris.mauromoncao.adv.br/login"
+                  target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 w-full justify-center px-6 py-3.5 rounded-full font-bold text-sm font-sans transition-all duration-200 hover:scale-105"
                   style={{ background: 'rgba(59,130,246,0.15)', color: '#93c5fd', border: '1.5px solid rgba(59,130,246,0.45)' }}>
                   <Lock size={14} />Entrar no Ben Juris Center
-                </button>
+                </a>
               </div>
             </div>
 
