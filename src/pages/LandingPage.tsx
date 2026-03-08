@@ -718,26 +718,23 @@ export default function LandingPage() {
             {/* Right */}
             <div className="md:w-3/5">
               <p className="text-base md:text-lg leading-8 font-sans mb-6" style={{ color: 'rgba(255,255,255,0.82)' }}>
-                O <strong style={{ color: '#DEC078' }}>Ben Strategic Intelligence Hub</strong> é o núcleo estratégico
-                que integra inteligência comercial, gestão jurídica, governança e performance em um único
-                ecossistema estruturado.
+                O <strong style={{ color: '#DEC078' }}>BEN Strategic Intelligence Hub</strong> constitui o núcleo estratégico
+                do ecossistema institucional que integra inteligência comercial, gestão jurídica, governança
+                e performance em uma estrutura operacional unificada.
               </p>
               <p className="text-base leading-8 font-sans mb-6" style={{ color: 'rgba(255,255,255,0.70)' }}>
                 Desenvolvido como extensão institucional de <strong style={{ color: '#DEC078' }}>Mauro Monção Advogados Associados</strong>,
-                o Hub foi concebido para organizar, conectar e potencializar as frentes centrais da advocacia
-                contemporânea, unindo visão estratégica, eficiência operacional e inteligência aplicada
-                à tomada de decisão.
+                o HUB foi concebido para organizar, conectar e potencializar as funções centrais do escritório.
               </p>
               <p className="text-base leading-8 font-sans" style={{ color: 'rgba(255,255,255,0.70)' }}>
-                Cada módulo foi projetado para operar de forma autônoma e, ao mesmo tempo, integrada —
-                garantindo que dados, processos e estratégias estejam sempre alinhados ao propósito
-                institucional do escritório.
+                É composto por módulos premium e interconectados, cada um especializado em sua frente
+                estratégica — operando de forma autônoma e, ao mesmo tempo, plenamente integrada.
               </p>
 
               {/* Metrics */}
               <div className="grid grid-cols-3 gap-4 mt-10">
                 {[
-                  { n: '2', label: 'Módulos Centrais' },
+                  { n: '3', label: 'Módulos Centrais' },
                   { n: '360°', label: 'Visão Estratégica' },
                   { n: '1', label: 'Ecossistema Unificado' },
                 ].map(m => (
@@ -763,14 +760,14 @@ export default function LandingPage() {
             <div className="section-divider mx-auto mb-5"
               style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #DEC078, transparent)' }} />
             <h2 className="font-serif font-bold text-4xl text-white mb-3" style={{ letterSpacing: '-0.02em' }}>
-              Os Dois <span style={{ color: '#DEC078' }}>Pilares</span> do Ecossistema
+              Os Três <span style={{ color: '#DEC078' }}>Pilares</span> do Ecossistema
             </h2>
             <p className="text-base font-sans max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.62)' }}>
-              Módulos premium interligados, cada um especializado em sua frente estratégica.
+              Módulos premium e interconectados, cada um especializado em sua frente estratégica. Acesso restrito via credenciais fornecidas pelo administrador.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
 
             {/* Growth Center */}
             <div className="glass-card p-8 flex flex-col transition-all duration-300 group hover:scale-[1.01]"
@@ -788,8 +785,8 @@ export default function LandingPage() {
               <h3 className="font-serif font-bold text-2xl text-white mb-4">Ben Growth Center</h3>
 
               <p className="text-sm leading-7 font-sans mb-6" style={{ color: 'rgba(255,255,255,0.72)' }}>
-                Centro de inteligência comercial, tráfego, CRM e performance, voltado à organização
-                do crescimento, da comunicação estratégica e da gestão de oportunidades.
+                Módulo de inteligência comercial, gestão de tráfego, CRM, performance, crescimento,
+                comunicação estratégica e gestão de oportunidades.
               </p>
 
               <div className="grid grid-cols-2 gap-3 mb-8">
@@ -833,8 +830,8 @@ export default function LandingPage() {
               <h3 className="font-serif font-bold text-2xl text-white mb-4">Ben Juris Center</h3>
 
               <p className="text-sm leading-7 font-sans mb-6" style={{ color: 'rgba(255,255,255,0.72)' }}>
-                Centro de gestão jurídica corporativa e pública, voltado ao controle operacional,
-                gestão de processos, prazos, documentos, contratos, fluxos internos e governança institucional.
+                Módulo de gestão jurídica corporativa e pública, controle operacional, prazos processuais,
+                documentos, contratos, fluxos internos e governança institucional.
               </p>
 
               <div className="grid grid-cols-2 gap-3 mb-6">
@@ -866,6 +863,56 @@ export default function LandingPage() {
                 </button>
               </div>
             </div>
+
+            {/* Ecosystem IA */}
+            <div className="glass-card p-8 flex flex-col transition-all duration-300 group hover:scale-[1.01] md:col-span-2 xl:col-span-1"
+              style={{ borderColor: 'rgba(109,40,217,0.30)' }}>
+              <div className="mb-5 p-3 rounded-xl flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.20)', height: '96px' }}>
+                <span className="font-serif font-bold text-2xl" style={{ color: '#a78bfa', letterSpacing: '-0.02em' }}>BEN Ecosystem IA</span>
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="text-xs font-semibold font-sans uppercase tracking-widest"
+                  style={{ color: 'rgba(167,139,250,0.80)' }}>Módulo 03</div>
+                <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#7c3aed' }} />
+              </div>
+              <h3 className="font-serif font-bold text-2xl text-white mb-4">BEN Ecosystem IA</h3>
+
+              <p className="text-sm leading-7 font-sans mb-6" style={{ color: 'rgba(255,255,255,0.72)' }}>
+                Módulo de workspace inteligente com agentes de IA especializados, projetos jurídicos,
+                chat contextualizado, memória vetorial, pipelines de automação e gestão de documentos com IA.
+              </p>
+
+              <div className="grid grid-cols-2 gap-3 mb-6">
+                {[
+                  { icon: Brain,  text: 'Agentes especializados' },
+                  { icon: Layers, text: 'Projetos jurídicos' },
+                  { icon: Zap,    text: 'Pipelines de IA' },
+                  { icon: Shield, text: 'Memória vetorial' },
+                ].map(item => (
+                  <div key={item.text} className="flex items-center gap-2">
+                    <item.icon size={13} style={{ color: '#7c3aed', flexShrink: 0 }} />
+                    <span className="text-xs font-sans" style={{ color: 'rgba(255,255,255,0.68)' }}>{item.text}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 mb-6 px-3 py-2.5 rounded-xl text-xs font-sans"
+                style={{ background: 'rgba(109,40,217,0.10)', border: '1px solid rgba(109,40,217,0.25)', color: 'rgba(196,181,253,0.90)' }}>
+                <Lock size={12} />
+                Acesso restrito — credenciais fornecidas pelo administrador
+              </div>
+
+              <div className="mt-auto">
+                <div className="w-full h-px mb-6" style={{ background: 'rgba(109,40,217,0.18)' }} />
+                <a href="https://ecosystem.mauromoncao.adv.br"
+                  target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 w-full justify-center px-6 py-3.5 rounded-full font-bold text-sm font-sans transition-all duration-200 hover:scale-105"
+                  style={{ background: 'rgba(109,40,217,0.15)', color: '#c4b5fd', border: '1.5px solid rgba(109,40,217,0.45)' }}>
+                  <Lock size={14} />Entrar no BEN Ecosystem IA
+                </a>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
