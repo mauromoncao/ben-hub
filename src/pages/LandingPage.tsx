@@ -867,8 +867,9 @@ export default function LandingPage() {
             {/* Ecosystem IA */}
             <div className="glass-card p-8 flex flex-col transition-all duration-300 group hover:scale-[1.01] md:col-span-2 xl:col-span-1"
               style={{ borderColor: 'rgba(109,40,217,0.30)' }}>
-              <div className="mb-5 p-3 rounded-xl flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.20)', height: '96px' }}>
-                <span className="font-serif font-bold text-2xl" style={{ color: '#a78bfa', letterSpacing: '-0.02em' }}>BEN Ecosystem IA</span>
+              <div className="mb-5 p-3 rounded-xl" style={{ background: 'rgba(0,0,0,0.20)' }}>
+                <img src="/logos/logo-ben-ecosystem-crop.png" alt="BEN Ecosystem IA"
+                  className="w-full" style={{ height: '80px', objectFit: 'contain', imageRendering: 'crisp-edges' }} />
               </div>
               <div className="flex items-center gap-2 mb-2">
                 <div className="text-xs font-semibold font-sans uppercase tracking-widest"
@@ -991,19 +992,28 @@ export default function LandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 mb-12">
-            <a href="https://ben-growth-center.vercel.app/"
+            <a href="https://bengrowth.mauromoncao.adv.br/login"
               target="_blank" rel="noopener noreferrer"
               className="btn-gold">
               <TrendingUp size={15} />Ben Growth Center
             </a>
-            <button onClick={() => navigate('/login?panel=juris')} className="btn-outline">
+            <a href="https://juris.mauromoncao.adv.br/login"
+              target="_blank" rel="noopener noreferrer"
+              className="btn-outline">
               <Shield size={15} />Ben Juris Center
-            </button>
-            <button onClick={() => navigate('/login?panel=cliente')}
+            </a>
+            <a href="https://ecosystem.mauromoncao.adv.br/login"
+              target="_blank" rel="noopener noreferrer"
+              className="btn-outline"
+              style={{ borderColor: 'rgba(124,58,237,0.45)', color: '#c4b5fd' }}>
+              <Zap size={15} />BEN Ecosystem IA
+            </a>
+            <a href="https://juris.mauromoncao.adv.br/login"
+              target="_blank" rel="noopener noreferrer"
               className="btn-outline"
               style={{ borderColor: 'rgba(255,255,255,0.25)', color: 'rgba(255,255,255,0.75)' }}>
               <Users size={14} />Acesso do Cliente
-            </button>
+            </a>
             <a href="https://www.mauromoncao.adv.br" target="_blank" rel="noopener noreferrer"
               className="btn-outline" style={{ borderColor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.50)' }}>
               <ExternalLink size={14} />Site Principal
