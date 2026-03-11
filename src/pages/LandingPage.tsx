@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
   TrendingUp, Scale, Shield, Brain, Layers, Target,
   Zap, BarChart3, Users, Globe, Lock, ChevronDown,
@@ -332,7 +331,6 @@ function EcosystemIllustration() {
 
 // ── Main Component ────────────────────────────────────────────────────────────
 export default function LandingPage() {
-  const navigate = useNavigate()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [accessDropdown, setAccessDropdown] = useState(false)
@@ -498,8 +496,11 @@ export default function LandingPage() {
                   <div className="mx-4" style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
 
                   {/* Acesso do Cliente */}
-                  <button
-                    onClick={() => { setAccessDropdown(false); navigate('/login?panel=cliente') }}
+                  <a
+                    href="https://portaldocliente.mauromoncao.adv.br/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setAccessDropdown(false)}
                     className="w-full flex items-center gap-3 px-4 py-3.5 transition-all group hover:bg-white/5"
                   >
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -511,7 +512,7 @@ export default function LandingPage() {
                       <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Credenciais fornecidas pelo escritório</div>
                     </div>
                     <Lock size={12} style={{ color: 'rgba(255,255,255,0.30)' }} />
-                  </button>
+                  </a>
 
                   <div className="px-4 py-2.5" style={{ background: 'rgba(0,0,0,0.25)' }}>
                     <p className="text-[10px] text-center" style={{ color: 'rgba(255,255,255,0.28)' }}>Credenciais emitidas pelo administrador</p>
@@ -606,7 +607,9 @@ export default function LandingPage() {
                   </div>
                   <Lock size={13} className="ml-auto" style={{ color: 'rgba(255,255,255,0.30)' }} />
                 </a>
-                <button onClick={() => { setMobileOpen(false); navigate('/login?panel=cliente') }}
+                <a href="https://portaldocliente.mauromoncao.adv.br/"
+                  target="_blank" rel="noopener noreferrer"
+                  onClick={() => setMobileOpen(false)}
                   className="w-full flex items-center gap-3 px-4 py-3.5">
                   <Users size={16} style={{ color: '#DEC078' }} />
                   <div className="text-left">
@@ -614,7 +617,7 @@ export default function LandingPage() {
                     <div className="text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Credenciais do escritório</div>
                   </div>
                   <Lock size={13} className="ml-auto" style={{ color: 'rgba(255,255,255,0.30)' }} />
-                </button>
+                </a>
               </div>
 
               <a href={waUrl} target="_blank" rel="noopener noreferrer"
@@ -708,12 +711,13 @@ export default function LandingPage() {
                   BEN Ecosystem IA
                   <Lock size={12} className="opacity-70" />
                 </a>
-                <button onClick={() => navigate('/login?panel=cliente')}
+                <a href="https://portaldocliente.mauromoncao.adv.br/"
+                  target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-bold font-sans transition-all duration-200 hover:scale-105"
                   style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', border: '2px solid rgba(255,255,255,0.30)' }}>
                   <Users size={15} />
                   Acesso do Cliente
-                </button>
+                </a>
               </div>
 
               {/* Scroll */}
