@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { Lock, Mail, Eye, EyeOff, ArrowLeft, Shield, TrendingUp, Users, ChevronRight, Cpu } from 'lucide-react'
+import { Lock, Mail, Eye, EyeOff, ArrowLeft, Shield, TrendingUp, Users, ChevronRight, Cpu, AlertCircle, Loader2 } from 'lucide-react'
+
+const GOOGLE_CLIENT_ID = '9749981324-sv27al0lv1t7ikb2i1fpdq05k65hjaoe.apps.googleusercontent.com'
 
 // The 4 access panels
 const ACCESS_PANELS = [
@@ -60,19 +62,16 @@ const ACCESS_PANELS = [
 ]
 
 export default function LoginPage() {
-  const { login } = useAuth()
+  const { login, loginWithGoogle } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
-  // Read ?panel= param to pre-select a panel (cliente only — others redirect externally)
   const urlPanel = new URLSearchParams(location.search).get('panel')
 
-  // Step 1: panel selection | Step 2: login form
   const [selected, setSelected] = useState<string | null>(
     urlPanel === 'cliente' ? urlPanel : null
   )
 
-  // If param changes (e.g. user navigates back/forward), sync
   useEffect(() => {
     if (urlPanel === 'cliente') {
       setSelected(urlPanel)
@@ -80,16 +79,69 @@ export default function LoginPage() {
       setSelected(null)
     }
   }, [urlPanel])
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [googleLoading, setGoogleLoading] = useState(false)
+  const [googleReady, setGoogleReady] = useState(false)
+  const googleBtnRef = useRef<HTMLDivElement>(null)
 
   const selectedPanel = ACCESS_PANELS.find(p => p.id === selected)
 
+  // ── Inicializa Google GSI ──────────────────────────────────
+  useEffect(() => {
+    const initGoogle = () => {
+      if (!window.google?.accounts?.id) return
+      window.google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: async (response) => {
+          setGoogleLoading(true)
+          setError('')
+          const result = await loginWithGoogle(response.credential)
+          setGoogleLoading(false)
+          if (result.ok) {
+            navigate('/portal')
+          } else {
+            setError(result.error || 'Erro ao autenticar com Google.')
+          }
+        },
+        auto_select: false,
+        cancel_on_tap_outside: true,
+      })
+      setGoogleReady(true)
+    }
+
+    if (window.google?.accounts?.id) {
+      initGoogle()
+    } else {
+      const interval = setInterval(() => {
+        if (window.google?.accounts?.id) {
+          clearInterval(interval)
+          initGoogle()
+        }
+      }, 200)
+      return () => clearInterval(interval)
+    }
+  }, [loginWithGoogle, navigate])
+
+  // ── Renderiza botão Google quando painel está selecionado ──
+  useEffect(() => {
+    if (googleReady && selected && googleBtnRef.current && window.google?.accounts?.id) {
+      window.google.accounts.id.renderButton(googleBtnRef.current, {
+        theme: 'filled_black',
+        size: 'large',
+        width: '100%',
+        text: 'signin_with',
+        shape: 'rectangular',
+        logo_alignment: 'left',
+      })
+    }
+  }, [googleReady, selected])
+
   const handleSelectPanel = (panel: typeof ACCESS_PANELS[0]) => {
-    // Growth Center opens directly — no login required
     if (panel.external) {
       window.open(panel.external, '_blank', 'noopener noreferrer')
       return
@@ -177,7 +229,7 @@ export default function LoginPage() {
               </p>
             </div>
 
-            {/* 3 Access panels */}
+            {/* 4 Access panels */}
             <div className="flex flex-col gap-3">
               {ACCESS_PANELS.map(panel => {
                 const Icon = panel.icon
@@ -243,7 +295,7 @@ export default function LoginPage() {
         )}
 
         {/* ═══════════════════════════════════════════════════════
-            STEP 2 — Login form (Juris or Cliente)
+            STEP 2 — Login form (Cliente panel)
         ═══════════════════════════════════════════════════════ */}
         {selected && selectedPanel && (
           <div
@@ -274,6 +326,28 @@ export default function LoginPage() {
               <p className="text-xs font-sans mt-1" style={{ color: `${selectedPanel.color}cc` }}>
                 {selectedPanel.loginSub}
               </p>
+            </div>
+
+            {/* ── Botão Google ── */}
+            <div className="mb-6">
+              {googleLoading ? (
+                <div className="w-full py-3 rounded-xl flex items-center justify-center gap-2"
+                  style={{ background: 'rgba(222,192,120,0.10)', border: '1px solid rgba(222,192,120,0.30)' }}>
+                  <Loader2 size={16} className="animate-spin" style={{ color: '#DEC078' }} />
+                  <span className="text-sm font-semibold" style={{ color: '#DEC078' }}>
+                    Autenticando com Google...
+                  </span>
+                </div>
+              ) : (
+                <div ref={googleBtnRef} className="w-full flex justify-center" style={{ minHeight: '44px' }} />
+              )}
+            </div>
+
+            {/* Separador */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex-1 h-px" style={{ background: 'rgba(222,192,120,0.15)' }} />
+              <span className="text-xs font-sans" style={{ color: 'rgba(222,192,120,0.45)' }}>ou entre com e-mail</span>
+              <div className="flex-1 h-px" style={{ background: 'rgba(222,192,120,0.15)' }} />
             </div>
 
             {/* Form */}
@@ -354,7 +428,7 @@ export default function LoginPage() {
                     color: '#fca5a5',
                   }}
                 >
-                  <Shield size={13} className="flex-shrink-0 mt-0.5" />
+                  <AlertCircle size={13} className="flex-shrink-0 mt-0.5" />
                   {error}
                 </div>
               )}
