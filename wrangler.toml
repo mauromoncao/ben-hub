@@ -1,0 +1,10 @@
+name = "ben-hub"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "dist"
+
+[env.production]
+name = "ben-hub"
+
+[[env.production.routes]]
+pattern = "hub.mauromoncao.adv.br/*"
+zone_name = "mauromoncao.adv.br"
